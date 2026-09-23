@@ -17,7 +17,7 @@ const formatDate = (date) => {
 export default function PatientDetail() {
   const { id } = useParams()
   const { patients } = usePatients()
-  const patient = patients.find((p) => p.id === id || p.medical_record_number === id) || null
+  const patient = patients.find((p) => String(p.id) === id || String(p.medical_record_number) === id) || null
   const patientId = patient?.id || patient?.medical_record_number
   const [clinicalNotes, setClinicalNotes] = useState([])
   const [diagnoses, setDiagnoses] = useState([])

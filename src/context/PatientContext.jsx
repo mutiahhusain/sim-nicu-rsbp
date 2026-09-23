@@ -418,10 +418,10 @@ export function PatientProvider({ children }) {
 
   const deletePatient = async (id) => {
     try {
-      const patient = patients.find((p) => p.id === id || p.medical_record_number === id)
+      const patient = patients.find((p) => String(p.id) === String(id) || String(p.medical_record_number) === String(id))
       const medicalRecordNumber = patient?.medical_record_number || id
       await deletePatientFromSupabase(medicalRecordNumber)
-      setPatients((prev) => prev.filter((p) => p.id !== id && p.medical_record_number !== id))
+      setPatients((prev) => prev.filter((p) => String(p.id) !== String(id) && String(p.medical_record_number) !== String(id)))
       return true
     } catch (err) {
       console.error('Gagal menghapus pasien:', err)
@@ -431,13 +431,13 @@ export function PatientProvider({ children }) {
 
   const updatePatient = async (id, updates) => {
     try {
-      const patient = patients.find((p) => p.id === id || p.medical_record_number === id)
+      const patient = patients.find((p) => String(p.id) === String(id) || String(p.medical_record_number) === String(id))
       const medicalRecordNumber = patient?.medical_record_number || id
       const saved = await updatePatientFromSupabase(medicalRecordNumber, updates)
       if (saved) {
         setPatients((prev) =>
           prev.map((p) => {
-            if (p.id !== id && p.medical_record_number !== id) return p
+            if (String(p.id) !== String(id) && String(p.medical_record_number) !== String(id)) return p
 
             const merged = { ...p, ...saved }
             const dataStatus = mapDataStatus(merged)

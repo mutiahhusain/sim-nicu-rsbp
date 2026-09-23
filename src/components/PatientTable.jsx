@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { usePatients } from '../context/PatientContext'
 import { showToast } from '../utils/toast'
@@ -60,6 +60,11 @@ export default function PatientTable() {
   const [sortConfig, setSortConfig] = useState({ key: 'created_at', direction: 'desc' })
   const [activeMonth, setActiveMonth] = useState('all')
   const [activeYear, setActiveYear] = useState('all')
+
+  useEffect(() => {
+    setEditingId(null)
+    setEditData({})
+  }, [patients])
 
   const currentYear = new Date().getFullYear()
   const years = useMemo(() => Array.from({ length: 5 }, (_, i) => currentYear - i), [currentYear])
@@ -310,7 +315,7 @@ export default function PatientTable() {
             {viewMode === 'cards' && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                 {paginatedPatients.map((patient) => {
-                  const isEditing = editingId === patient.id
+                  const isEditing = String(editingId) === String(patient.id)
                   const statusConfig = getStatusConfig(patient.dataStatus)
                   const genderConfig = getGenderConfig(patient.gender)
                   return (
@@ -360,7 +365,7 @@ export default function PatientTable() {
                                 <span className="font-medium text-on-surface">{patient.bed || '-'}</span>
                               </div>
                               <div className="flex-1 min-w-0">
-                                <Link to={`/pasien/${patient.id}`} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors group">
+                                <Link to={`/pasien/${patient.medical_record_number || String(patient.id)}`} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors group">
                                   <span className="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-colors">visibility</span>
                                   <span className="text-sm text-on-surface-variant truncate">Detail</span>
                                 </Link>
@@ -437,7 +442,7 @@ export default function PatientTable() {
                   </thead>
                   <tbody className="divide-y divide-surface-variant/50">
                     {paginatedPatients.map((patient) => {
-                      const isEditing = editingId === patient.id
+                      const isEditing = String(editingId) === String(patient.id)
                       const statusConfig = getStatusConfig(patient.dataStatus)
                       const genderConfig = getGenderConfig(patient.gender)
                       return (
@@ -491,7 +496,7 @@ export default function PatientTable() {
                                 </>
                               ) : (
                                 <>
-                                  <Link to={`/pasien/${patient.id}`} className="p-2 rounded-lg hover:bg-surface-container transition-colors" aria-label="Detail"><span className="material-symbols-outlined text-[18px] text-on-surface-variant">visibility</span></Link>
+                                  <Link to={`/pasien/${patient.medical_record_number || String(patient.id)}`} className="p-2 rounded-lg hover:bg-surface-container transition-colors" aria-label="Detail"><span className="material-symbols-outlined text-[18px] text-on-surface-variant">visibility</span></Link>
                                   <button onClick={() => handleEdit(patient)} className="p-2 rounded-lg bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-surface-container transition-colors shadow-sm" aria-label="Edit"><span className="material-symbols-outlined text-[18px]">edit</span></button>
                                   <button onClick={() => handleDelete(patient.id, patient.name)} disabled={deletingId === patient.id} className={`p-2 rounded-lg transition-colors ${deletingId === patient.id ? 'bg-error-container text-error' : 'bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-error-container hover:text-error shadow-sm'}`} aria-label="Hapus">{deletingId === patient.id ? <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span> : <span className="material-symbols-outlined text-[18px]">delete</span>}</button>
                                 </>
