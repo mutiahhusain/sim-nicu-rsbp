@@ -1,24 +1,57 @@
 import { useParams, Link } from 'react-router-dom'
-import { usePatients } from '../context/PatientContext'
 import { useEffect, useState } from 'react'
+import { usePatients } from '../context/PatientContext'
+import {
+  fetchClinicalNotes,
+  fetchPatientDiagnoses,
+  fetchPatientTreatments,
+} from '../api/patients'
 
-const clinicalNotes = [
-  { date: '14 Nov 2024', note: 'Admisi ke NICU, kondisi kritis, intubasi darurat.' },
-  { date: '15 Nov 2024', note: 'Ventilator PC-SIMV, FiO2 40%, SpO2 stabil 92%.' },
-  { date: '17 Nov 2024', note: 'Konsultasi neonatologi, rencana weaning ventilator.' },
-]
+const formatDate = (date) => {
+  if (!date) return ''
+  const parsed = new Date(`${date}T00:00:00`)
+  if (isNaN(parsed.getTime())) return date
+  return parsed.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })
+}
 
 export default function PatientDetail() {
   const { id } = useParams()
   const { patients } = usePatients()
-  const [patient, setPatient] = useState(null)
+  const patient = patients.find((p) => p.id === id || p.medical_record_number === id) || null
+  const patientId = patient?.id || patient?.medical_record_number
+  const [clinicalNotes, setClinicalNotes] = useState([])
+  const [diagnoses, setDiagnoses] = useState([])
+  const [treatments, setTreatments] = useState([])
+  const [clinicalLoading, setClinicalLoading] = useState(false)
+  const [clinicalError, setClinicalError] = useState('')
 
   useEffect(() => {
-    const found = patients.find((p) => p.id === id || p.medical_record_number === id)
-    if (found) {
-      setPatient(found)
-    }
-  }, [id, patients])
+    if (!patientId) return
+
+    let cancelled = false
+    setClinicalLoading(true)
+    setClinicalError('')
+
+    Promise.all([
+      fetchClinicalNotes(patientId),
+      fetchPatientDiagnoses(patientId),
+      fetchPatientTreatments(patientId),
+    ])
+      .then(([notes, patientDiagnoses, patientTreatments]) => {
+        if (cancelled) return
+        setClinicalNotes(Array.isArray(notes) ? notes : [])
+        setDiagnoses(Array.isArray(patientDiagnoses) ? patientDiagnoses : [])
+        setTreatments(Array.isArray(patientTreatments) ? patientTreatments : [])
+      })
+      .catch((err) => {
+        if (!cancelled) setClinicalError(err?.message || 'Gagal memuat data klinis.')
+      })
+      .finally(() => {
+        if (!cancelled) setClinicalLoading(false)
+      })
+
+    return () => { cancelled = true }
+  }, [patientId])
 
   if (!patient) {
     return (
@@ -133,21 +166,75 @@ export default function PatientDetail() {
       </div>
 
       <div className="bg-surface-container-lowest rounded-xl p-card-padding-md shadow-sm space-y-3">
-        <h3 className="font-headline-sm text-headline-sm text-on-surface font-semibold">Timeline Perawatan</h3>
-        <div className="space-y-3">
-          {clinicalNotes.map((note, idx) => (
-            <div key={idx} className="flex gap-3">
-              <div className="flex flex-col items-center">
-                <div className="w-2 h-2 rounded-full bg-primary mt-1.5"></div>
-                {idx < clinicalNotes.length - 1 && <div className="w-0.5 h-full bg-surface-container mt-1"></div>}
-              </div>
-              <div className="flex-1 pb-3">
-                <p className="font-label-sm text-label-sm text-primary font-semibold">{note.date}</p>
-                <p className="font-body-sm text-body-sm text-on-surface mt-0.5">{note.note}</p>
-              </div>
+        <h3 className="font-headline-sm text-headline-sm text-on-surface font-semibold">Diagnosa & Tindakan</h3>
+        {clinicalLoading ? (
+          <div className="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant">
+            <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
+            <span>Memuat data klinis...</span>
+          </div>
+        ) : clinicalError ? (
+          <div className="flex items-start gap-2 rounded-lg bg-error-container p-3 font-label-sm text-label-sm text-on-error-container">
+            <span className="material-symbols-outlined text-[18px] shrink-0">error</span>
+            <span>{clinicalError}</span>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="rounded-lg bg-surface-container-low p-3">
+              <h4 className="font-label-sm text-label-sm text-on-surface-variant font-semibold">Diagnosa</h4>
+              {diagnoses.length ? (
+                <ul className="mt-2 space-y-1">
+                  {diagnoses.map((item, index) => {
+                    const name = item.diagnosis?.name || item.diagnosis_name || item.name
+                    return <li key={item.id || index} className="font-body-sm text-body-sm text-on-surface">{name || '—'}</li>
+                  })}
+                </ul>
+              ) : <p className="mt-2 font-body-sm text-body-sm text-on-surface-variant">Belum ada diagnosa.</p>}
             </div>
-          ))}
-        </div>
+            <div className="rounded-lg bg-surface-container-low p-3">
+              <h4 className="font-label-sm text-label-sm text-on-surface-variant font-semibold">Tindakan</h4>
+              {treatments.length ? (
+                <ul className="mt-2 space-y-1">
+                  {treatments.map((item, index) => {
+                    const name = item.treatment?.name || item.treatment_name || item.name
+                    return <li key={item.id || index} className="font-body-sm text-body-sm text-on-surface">{name || '—'}</li>
+                  })}
+                </ul>
+              ) : <p className="mt-2 font-body-sm text-body-sm text-on-surface-variant">Belum ada tindakan.</p>}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="bg-surface-container-lowest rounded-xl p-card-padding-md shadow-sm space-y-3">
+        <h3 className="font-headline-sm text-headline-sm text-on-surface font-semibold">Timeline Perawatan</h3>
+        {clinicalLoading ? (
+          <div className="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant">
+            <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
+            <span>Memuat catatan klinis...</span>
+          </div>
+        ) : clinicalError ? (
+          <div className="flex items-start gap-2 rounded-lg bg-error-container p-3 font-label-sm text-label-sm text-on-error-container">
+            <span className="material-symbols-outlined text-[18px] shrink-0">error</span>
+            <span>{clinicalError}</span>
+          </div>
+        ) : clinicalNotes.length === 0 ? (
+          <p className="font-body-sm text-body-sm text-on-surface-variant">Belum ada catatan klinis.</p>
+        ) : (
+          <div className="space-y-3">
+            {clinicalNotes.map((note, idx) => (
+              <div key={note.id || idx} className="flex gap-3">
+                <div className="flex flex-col items-center">
+                  <div className="w-2 h-2 rounded-full bg-primary mt-1.5"></div>
+                  {idx < clinicalNotes.length - 1 && <div className="w-0.5 h-full bg-surface-container mt-1"></div>}
+                </div>
+                <div className="flex-1 pb-3">
+                  <p className="font-label-sm text-label-sm text-primary font-semibold">{formatDate(note.note_date || note.date)}</p>
+                  <p className="font-body-sm text-body-sm text-on-surface mt-0.5">{note.note}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

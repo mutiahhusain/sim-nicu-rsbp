@@ -418,8 +418,10 @@ export function PatientProvider({ children }) {
 
   const deletePatient = async (id) => {
     try {
-      await deletePatientFromSupabase(id)
-      setPatients((prev) => prev.filter((p) => p.id !== id))
+      const patient = patients.find((p) => p.id === id || p.medical_record_number === id)
+      const medicalRecordNumber = patient?.medical_record_number || id
+      await deletePatientFromSupabase(medicalRecordNumber)
+      setPatients((prev) => prev.filter((p) => p.id !== id && p.medical_record_number !== id))
       return true
     } catch (err) {
       console.error('Gagal menghapus pasien:', err)
@@ -429,10 +431,26 @@ export function PatientProvider({ children }) {
 
   const updatePatient = async (id, updates) => {
     try {
-      const saved = await updatePatientFromSupabase(id, updates)
+      const patient = patients.find((p) => p.id === id || p.medical_record_number === id)
+      const medicalRecordNumber = patient?.medical_record_number || id
+      const saved = await updatePatientFromSupabase(medicalRecordNumber, updates)
       if (saved) {
         setPatients((prev) =>
-          prev.map((p) => (p.id === id ? { ...p, ...saved } : p))
+          prev.map((p) => {
+            if (p.id !== id && p.medical_record_number !== id) return p
+
+            const merged = { ...p, ...saved }
+            const dataStatus = mapDataStatus(merged)
+            const statusConfig = getStatusConfig(dataStatus)
+            return {
+              ...merged,
+              status: merged.status || merged.service_status || merged.follow_up || 'Dirawat',
+              dataStatus,
+              dotColor: statusConfig.dot,
+              statusColor: statusConfig.color,
+              border: `border-l-4 ${statusConfig.dot.replace('bg-', 'border-')}`,
+            }
+          })
         )
       }
       return saved
