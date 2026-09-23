@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><title>NeoCare NICU</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: 'class', theme: { extend: { 'colors': { 'on-primary-fixed': '#001f29', 'surface-container': '#e5eeff', 'on-primary-fixed-variant': '#004d62', 'on-secondary-fixed': '#00174b', 'surface-container-lowest': '#ffffff', 'on-secondary-container': '#fefcff', 'inverse-on-surface': '#eaf1ff', 'surface-container-low': '#eff4ff', 'primary-fixed-dim': '#81d1f0', 'on-tertiary-fixed-variant': '#005137', 'secondary-fixed': '#dbe1ff', 'error': '#ba1a1a', 'secondary-container': '#316bf3', 'error-container': '#ffdad6', 'inverse-primary': '#81d1f0', 'background': '#f8f9ff', 'outline': '#6f787d', 'tertiary-fixed-dim': '#68dba9', 'on-tertiary-container': '#a3ffd2', 'surface-tint': '#006781', 'surface-container-high': '#dce9ff', 'surface-dim': '#cbdbf5', 'surface-variant': '#d3e4fe', 'on-background': '#0b1c30', 'on-secondary': '#ffffff', 'primary': '#005a71', 'on-error': '#ffffff', 'secondary': '#0051d5', 'on-error-container': '#93000a', 'on-primary': '#ffffff', 'outline-variant': '#bec8cd', 'surface-bright': '#f8f9ff', 'inverse-surface': '#213145', 'on-secondary-fixed-variant': '#003ea8', 'tertiary': '#005f41', 'primary-container': '#0e7490', 'on-tertiary-fixed': '#002114', 'on-tertiary': '#ffffff', 'primary-fixed': '#b9eaff', 'surface-container-highest': '#d3e4fe', 'on-surface-variant': '#3f484c', 'surface': '#f8f9ff', 'tertiary-container': '#007a54', 'on-surface': '#0b1c30', 'secondary-fixed-dim': '#b4c5ff', 'tertiary-fixed': '#85f8c4', 'on-primary-container': '#d3f1ff' }, 'borderRadius': { 'DEFAULT': '0.125rem', 'lg': '0.25rem', 'xl': '0.5rem', 'full': '0.75rem' }, 'spacing': { 'card-padding-sm': '0.75rem', 'gutter-desktop': '2rem', 'card-padding-md': '1.25rem', 'gutter-mobile': '1rem', 'header-height': '4rem', 'vital-grid-gap': '0.75rem', 'card-padding-lg': '1.5rem', 'stepper-gap': '1.5rem', 'gutter-tablet': '1.5rem' }, 'fontFamily': { 'label-sm': ['Inter'], 'label-md': ['Inter'], 'body-sm': ['Inter'], 'body-md': ['Inter'], 'display-lg': ['Plus Jakarta Sans'], 'headline-sm': ['Plus Jakarta Sans'], 'body-lg': ['Inter'], 'vital-metric-md': ['Inter'], 'headline-md': ['Plus Jakarta Sans'], 'vital-metric-lg': ['Inter'], 'headline-lg': ['Plus Jakarta Sans'], 'code-tabular': ['Inter'] }, 'fontSize': { 'label-sm': ['11px', { 'lineHeight': '14px', 'letterSpacing': '0.04em', 'fontWeight': '600' }], 'label-md': ['13px', { 'lineHeight': '16px', 'fontWeight': '500' }], 'body-sm': ['12px', { 'lineHeight': '18px', 'fontWeight': '400' }], 'body-md': ['14px', { 'lineHeight': '20px', 'fontWeight': '400' }], 'display-lg': ['32px', { 'lineHeight': '40px', 'letterSpacing': '-0.02em', 'fontWeight': '700' }], 'headline-sm': ['16px', { 'lineHeight': '24px', 'fontWeight': '600' }], 'body-lg': ['16px', { 'lineHeight': '24px', 'fontWeight': '400' }], 'vital-metric-md': ['20px', { 'lineHeight': '24px', 'letterSpacing': '-0.01em', 'fontWeight': '700' }], 'headline-md': ['20px', { 'lineHeight': '28px', 'letterSpacing': '-0.01em', 'fontWeight': '600' }], 'vital-metric-lg': ['28px', { 'lineHeight': '32px', 'letterSpacing': '-0.02em', 'fontWeight': '700' }], 'headline-lg': ['24px', { 'lineHeight': '32px', 'letterSpacing': '-0.015em', 'fontWeight': '600' }], 'code-tabular': ['12px', { 'lineHeight': '16px', 'fontWeight': '500' }] } } } }</script><style>@layer base { html, body { width: 100vw; margin: 0; padding: 0; min-height: 100%; } body { overscroll-behavior: none; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style></head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter-mobile flex items-center justify-between"><div class="flex items-center gap-2 min-w-0"><img alt="NICU Care Logo" class="h-8 w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLCpamkKFRUYK83Izxrq4Y_sPiz4_hatqgvlXNgap0O34dh9gZoMHpqc8exr5CnyaIKlaVUQES-BCg1PXmjlGEMoce76EfcKAOWwkZFsUXMQJJv2lXVASqC-Nj-bXu0b6M7dI1akHs16LLk55fwgIfxSnFIy8wE32_w95025ZgBxiVsoaQnlL8j_NoMghHWisi3mUD5wI0UAmEY59r5ZPpwSC1T1oRJQNyXtCpBzCVOqep9S-ZJNg7"/><div class="flex flex-col min-w-0"><div class="flex items-center gap-1.5"><span class="font-headline-sm text-headline-sm text-primary tracking-tight truncate">NeoCare NICU</span><span class="hidden sm:inline-block font-label-sm text-label-sm text-on-surface-variant font-normal">| Pasien</span></div><div class="flex items-center gap-1.5 mt-0.5"><span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-tertiary-container animate-pulse"></span><span class="truncate max-w-[140px]">Ruang NICU - RS Ibu &amp; Anak</span></span></div></div></div><div class="flex items-center gap-1.5 shrink-0"><button aria-label="Alert Klinis" class="w-11 h-11 flex items-center justify-center rounded-full hover:bg-surface-container-high text-on-surface-variant transition-colors relative" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error ring-2 ring-surface"></span></button><div class="flex items-center gap-1.5 pl-1"><div class="hidden sm:flex flex-col text-right"><span class="font-label-sm text-label-sm text-on-surface font-semibold truncate max-w-[110px]">dr. Sp.A</span><span class="font-label-sm text-label-sm text-on-surface-variant">Admin Unit</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_1px_4px_rgba(0,0,0,0.12)] shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-24 bg-surface"><div class="flex flex-col w-full px-gutter-mobile py-4 space-y-4">
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-on-surface">Data Pasien NICU</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Monitoring admisi, riwayat rawat, dan rekap medis</p>
+</div>
+</div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-high text-primary hover:bg-surface-variant transition-colors shadow-sm text-label-sm font-label-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+<span>Ekspor</span>
+</button>
+</div>
+<div class="relative w-full mt-1">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full pl-10 pr-10 py-2.5 rounded-xl bg-surface-container-lowest text-on-surface font-body-md text-body-md placeholder:text-outline shadow-sm focus:outline-none focus:bg-surface-container-low transition-all" id="patient-search-input" placeholder="Cari Nama Bayi, No. RM, atau Nama Ibu..." type="text"/>
+<button class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-outline hover:text-on-surface" id="clear-search-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-2 overflow-x-auto pb-1 -mx-gutter-mobile px-gutter-mobile no-scrollbar" id="status-filter-group">
+<button class="filter-chip active shrink-0 px-3 py-1.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm shadow-sm transition-all flex items-center gap-1.5" data-filter="all" type="button">
+<span>Semua</span>
+<span class="px-1.5 py-0.2 rounded-full bg-on-primary/20 text-on-primary font-code-tabular text-label-sm">28</span>
+</button>
+<button class="filter-chip shrink-0 px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm shadow-sm hover:bg-surface-variant transition-all flex items-center gap-1.5" data-filter="dirawat" type="button">
+<span>Dirawat</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-primary font-code-tabular text-label-sm">14</span>
+</button>
+<button class="filter-chip shrink-0 px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm shadow-sm hover:bg-surface-variant transition-all flex items-center gap-1.5" data-filter="sembuh" type="button">
+<span>Pulang Sembuh</span>
+<span class="px-1.5 py-0.2 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-code-tabular text-label-sm">11</span>
+</button>
+<button class="filter-chip shrink-0 px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm shadow-sm hover:bg-surface-variant transition-all flex items-center gap-1.5" data-filter="rujuk" type="button">
+<span>Rujuk</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-on-surface-variant font-code-tabular text-label-sm">2</span>
+</button>
+<button class="filter-chip shrink-0 px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm shadow-sm hover:bg-surface-variant transition-all flex items-center gap-1.5" data-filter="meninggal" type="button">
+<span>Meninggal</span>
+<span class="px-1.5 py-0.2 rounded-full bg-error-container text-on-error-container font-code-tabular text-label-sm">1</span>
+</button>
+<div class="shrink-0 h-5 w-[1px] bg-surface-container-highest self-center mx-0.5"></div>
+<button class="shrink-0 px-3 py-1.5 rounded-full bg-surface-container-lowest text-primary font-label-sm text-label-sm shadow-sm flex items-center gap-1 hover:bg-surface-container-low transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">calendar_month</span>
+<span>Nov 2024</span>
+<span class="material-symbols-outlined text-[14px]">expand_more</span>
+</button>
+</div>
+<div class="flex flex-col space-y-3.5" id="patients-list">
+<div class="patient-card bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col" data-name="rahma" data-rm="RM-2024-0891" data-status="dirawat">
+<div class="p-card-padding-md pb-3 flex flex-col gap-2.5">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-start gap-2.5 min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[24px]">child_care</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">By. Ny. Rahma</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-code-tabular text-label-sm">Bok 04</span>
+</div>
+<p class="font-code-tabular text-body-sm text-outline mt-0.5">No. RM: <span class="font-semibold text-on-surface">RM-2024-0891</span></p>
+</div>
+</div>
+<span class="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm shadow-xs animate-pulse">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+            Dirawat (Ventilator)
+          </span>
+</div>
+<div class="grid grid-cols-2 gap-2 bg-surface-container-low rounded-lg p-2.5">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Jenis Kelamin</span>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">male</span>
+<span class="font-body-sm text-body-sm font-semibold text-on-surface">Laki-laki</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Waktu Lahir</span>
+<span class="font-code-tabular text-body-sm text-on-surface font-semibold mt-0.5">14 Nov 2024 (08:30)</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Berat Badan Lahir</span>
+<span class="font-vital-metric-md text-vital-metric-md text-error mt-0.5 font-bold">1.150 <span class="text-label-sm font-body-sm text-on-surface-variant font-normal">gram</span></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Usia Gestasi</span>
+<span class="font-body-sm text-body-sm text-on-surface font-semibold mt-0.5">28 Mgg <span class="text-label-sm text-error font-normal">(Ekstrem)</span></span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 pt-0.5 text-body-sm font-body-sm">
+<div class="flex items-center justify-between gap-2">
+<span class="text-on-surface-variant flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[16px]">pregnant_woman</span> Ibu Kandung:
+            </span>
+<span class="text-on-surface font-medium truncate">Ny. Rahmawati <span class="font-code-tabular text-outline text-label-sm">(0812-9842-xxxx)</span></span>
+</div>
+<div class="flex items-center justify-between gap-2">
+<span class="text-on-surface-variant flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[16px]">stethoscope</span> DPJP:
+            </span>
+<span class="text-on-surface font-medium truncate">dr. Hendra, Sp.A(K)</span>
+</div>
+<div class="flex items-start justify-between gap-2 bg-surface-container-high/40 p-2 rounded">
+<span class="text-on-surface-variant flex items-center gap-1 shrink-0 text-label-sm font-label-sm">
+<span class="material-symbols-outlined text-[16px] text-error">diagnosis</span> Dx Utama:
+            </span>
+<span class="text-error font-semibold text-right text-body-sm truncate">RDS Gr. III (Hyaline Membrane)</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low px-card-padding-md py-2.5 flex items-center justify-end gap-2">
+<button class="p-2 rounded-lg bg-surface-container-lowest text-primary hover:bg-surface-container-high transition-colors shadow-xs" title="Cetak Ringkasan PDF" type="button">
+<span class="material-symbols-outlined text-[18px]">print</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition-colors shadow-xs font-label-sm text-label-sm flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+<span>Edit</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary hover:bg-primary-container transition-colors shadow-xs font-label-sm text-label-sm flex items-center gap-1" type="button">
+<span>Detail Klinis</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="patient-card bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col" data-name="siti aisyah" data-rm="RM-2024-0895" data-status="dirawat">
+<div class="p-card-padding-md pb-3 flex flex-col gap-2.5">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-start gap-2.5 min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[24px]">child_care</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">By. Ny. Siti Aisyah</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-code-tabular text-label-sm">Bok 07</span>
+</div>
+<p class="font-code-tabular text-body-sm text-outline mt-0.5">No. RM: <span class="font-semibold text-on-surface">RM-2024-0895</span></p>
+</div>
+</div>
+<span class="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            Dirawat (CPAP)
+          </span>
+</div>
+<div class="grid grid-cols-2 gap-2 bg-surface-container-low rounded-lg p-2.5">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Jenis Kelamin</span>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-primary">female</span>
+<span class="font-body-sm text-body-sm font-semibold text-on-surface">Perempuan</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Waktu Lahir</span>
+<span class="font-code-tabular text-body-sm text-on-surface font-semibold mt-0.5">16 Nov 2024 (14:15)</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Berat Badan Lahir</span>
+<span class="font-vital-metric-md text-vital-metric-md text-primary mt-0.5 font-bold">1.620 <span class="text-label-sm font-body-sm text-on-surface-variant font-normal">gram</span></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Usia Gestasi</span>
+<span class="font-body-sm text-body-sm text-on-surface font-semibold mt-0.5">32 Mgg <span class="text-label-sm text-on-surface-variant font-normal">(Sedang)</span></span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 pt-0.5 text-body-sm font-body-sm">
+<div class="flex items-center justify-between gap-2">
+<span class="text-on-surface-variant flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[16px]">pregnant_woman</span> Ibu Kandung:
+            </span>
+<span class="text-on-surface font-medium truncate">Ny. Siti Aisyah</span>
+</div>
+<div class="flex items-center justify-between gap-2">
+<span class="text-on-surface-variant flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[16px]">stethoscope</span> DPJP:
+            </span>
+<span class="text-on-surface font-medium truncate">dr. Anita, Sp.A</span>
+</div>
+<div class="flex items-start justify-between gap-2 bg-surface-container-high/40 p-2 rounded">
+<span class="text-on-surface-variant flex items-center gap-1 shrink-0 text-label-sm font-label-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">diagnosis</span> Dx Utama:
+            </span>
+<span class="text-primary font-semibold text-right text-body-sm truncate">BBLR + Hiperbilirubinemia</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low px-card-padding-md py-2.5 flex items-center justify-end gap-2">
+<button class="p-2 rounded-lg bg-surface-container-lowest text-primary hover:bg-surface-container-high transition-colors shadow-xs" title="Cetak Ringkasan PDF" type="button">
+<span class="material-symbols-outlined text-[18px]">print</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition-colors shadow-xs font-label-sm text-label-sm flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+<span>Edit</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary hover:bg-primary-container transition-colors shadow-xs font-label-sm text-label-sm flex items-center gap-1" type="button">
+<span>Detail Klinis</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="patient-card bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col" data-name="ratna sari" data-rm="RM-2024-0870" data-status="sembuh">
+<div class="p-card-padding-md pb-3 flex flex-col gap-2.5">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-start gap-2.5 min-w-0">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[24px]">verified</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">By. Ny. Ratna Sari</span>
+<span class="px-1.5 py-0.5 rounded bg-tertiary-container/10 text-tertiary font-label-sm text-label-sm font-semibold">PBJ</span>
+</div>
+<p class="font-code-tabular text-body-sm text-outline mt-0.5">No. RM: <span class="font-semibold text-on-surface">RM-2024-0870</span></p>
+</div>
+</div>
+<span class="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+            Pulang Sembuh
+          </span>
+</div>
+<div class="grid grid-cols-2 gap-2 bg-surface-container-low rounded-lg p-2.5">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Jenis Kelamin</span>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">male</span>
+<span class="font-body-sm text-body-sm font-semibold text-on-surface">Laki-laki</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Berat Badan Lahir</span>
+<span class="font-vital-metric-md text-vital-metric-md text-tertiary mt-0.5 font-bold">2.200 <span class="text-label-sm font-body-sm text-on-surface-variant font-normal">gram</span></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Tgl Masuk</span>
+<span class="font-code-tabular text-body-sm text-on-surface font-semibold mt-0.5">02 Nov 2024</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Tgl Keluar (Discharge)</span>
+<span class="font-code-tabular text-body-sm text-tertiary font-semibold mt-0.5">18 Nov 2024</span>
+</div>
+</div>
+<div class="flex items-center justify-between gap-2 p-2 rounded bg-tertiary-fixed/30 text-on-tertiary-fixed-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-[18px]">task_alt</span> Status Akhir:
+          </span>
+<span class="font-semibold text-right">Pulang Berobat Jalan (Sembuh Total)</span>
+</div>
+</div>
+<div class="bg-surface-container-low px-card-padding-md py-2.5 flex items-center justify-end gap-2">
+<button class="p-2 rounded-lg bg-surface-container-lowest text-primary hover:bg-surface-container-high transition-colors shadow-xs" title="Cetak Ringkasan Pulang" type="button">
+<span class="material-symbols-outlined text-[18px]">print</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-lg bg-tertiary text-on-tertiary hover:bg-tertiary-container transition-colors shadow-xs font-label-sm text-label-sm flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">clinical_notes</span>
+<span>Lihat Resume Medis</span>
+</button>
+</div>
+</div>
+</div>
+<div class="hidden flex flex-col items-center justify-center p-8 text-center bg-surface-container-lowest rounded-xl shadow-sm my-4" id="no-data-placeholder">
+<div class="w-16 h-16 rounded-full bg-surface-container-high text-outline flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-[32px]">folder_off</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">Data Pasien Tidak Ditemukan</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 max-w-xs">Periksa kembali kata kunci pencarian atau ganti filter status di atas.</p>
+<button class="mt-4 px-4 py-2 rounded-lg bg-surface-container text-primary font-label-sm text-label-sm hover:bg-surface-container-high transition-colors" id="reset-filter-btn" type="button">
+      Reset Pencarian
+    </button>
+</div>
+<div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 text-on-surface-variant">
+<span class="font-body-sm text-body-sm text-center sm:text-left">
+      Menampilkan <span class="font-semibold text-on-surface">1-3</span> dari <span class="font-semibold text-on-surface">28</span> Pasien
+    </span>
+<div class="flex items-center gap-1.5">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-low text-outline cursor-not-allowed font-label-sm text-label-sm flex items-center gap-1 shadow-xs" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+<span>Prev</span>
+</button>
+<div class="flex items-center gap-1 px-1">
+<span class="w-7 h-7 rounded bg-primary text-on-primary font-code-tabular text-body-sm font-semibold flex items-center justify-center shadow-xs">1</span>
+<button class="w-7 h-7 rounded hover:bg-surface-container text-on-surface font-code-tabular text-body-sm flex items-center justify-center transition-colors" type="button">2</button>
+<button class="w-7 h-7 rounded hover:bg-surface-container text-on-surface font-code-tabular text-body-sm flex items-center justify-center transition-colors" type="button">3</button>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-primary hover:bg-surface-container-low font-label-sm text-label-sm flex items-center gap-1 shadow-xs transition-colors" type="button">
+<span>Next</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const searchInput = document.getElementById('patient-search-input');
+    const clearBtn = document.getElementById('clear-search-btn');
+    const filterButtons = document.querySelectorAll('.filter-chip');
+    const cards = document.querySelectorAll('.patient-card');
+    const noDataDiv = document.getElementById('no-data-placeholder');
+    const resetBtn = document.getElementById('reset-filter-btn');
+
+    let activeFilter = 'all';
+
+    function applyFilters() {
+      const query = (searchInput.value || '').toLowerCase().trim();
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const name = card.dataset.name || '';
+        const rm = (card.dataset.rm || '').toLowerCase();
+        const status = card.dataset.status || '';
+
+        const matchesQuery = !query || name.includes(query) || rm.includes(query);
+        const matchesStatus = activeFilter === 'all' || status === activeFilter;
+
+        if (matchesQuery && matchesStatus) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      if (visibleCount === 0) {
+        noDataDiv.classList.remove('hidden');
+      } else {
+        noDataDiv.classList.add('hidden');
+      }
+
+      if (query.length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      applyFilters();
+      searchInput.focus();
+    });
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        activeFilter = 'all';
+        filterButtons.forEach(btn => {
+          if (btn.dataset.filter === 'all') {
+            btn.className = 'filter-chip active shrink-0 px-3 py-1.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm shadow-sm transition-all flex items-center gap-1.5';
+          } else {
+            btn.className = 'filter-chip shrink-0 px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm shadow-sm hover:bg-surface-variant transition-all flex items-center gap-1.5';
+          }
+        });
+        applyFilters();
+      });
+    }
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => {
+          b.className = 'filter-chip shrink-0 px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm shadow-sm hover:bg-surface-variant transition-all flex items-center gap-1.5';
+        });
+
+        btn.className = 'filter-chip active shrink-0 px-3 py-1.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm shadow-sm transition-all flex items-center gap-1.5';
+
+        activeFilter = btn.dataset.filter;
+        applyFilters();
+      });
+    });
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.05)]" data-active-classes="text-primary font-semibold"><div class="flex justify-around items-center h-16 px-2 relative"><a class="flex-1 flex flex-col items-center justify-center h-full min-w-[56px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="beranda" href="#"><span class="material-symbols-outlined text-[22px]">monitoring</span><span class="font-label-sm text-label-sm mt-0.5">Beranda</span></a><a aria-current="page" class="flex-1 flex flex-col items-center justify-center h-full min-w-[56px] transition-colors text-primary font-semibold" data-path="pasien" href="#"><span class="material-symbols-outlined text-[22px]">format_list_bulleted</span><span class="font-label-sm text-label-sm mt-0.5">Pasien</span></a><div class="flex-1 flex flex-col items-center justify-center h-full min-w-[56px] relative"><a class="-top-4 absolute w-12 h-12 rounded-full bg-primary-container text-on-primary shadow-[0_4px_10px_rgba(14,116,144,0.35)] flex items-center justify-center hover:bg-primary transition-all active:scale-95" data-path="tambah-pasien" href="#"><span class="material-symbols-outlined text-[26px]">add</span></a><span class="font-label-sm text-label-sm text-on-surface-variant mt-7">+ Pasien</span></div><a class="flex-1 flex flex-col items-center justify-center h-full min-w-[56px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="laporan" href="#"><span class="material-symbols-outlined text-[22px]">description</span><span class="font-label-sm text-label-sm mt-0.5">Laporan</span></a><a class="flex-1 flex flex-col items-center justify-center h-full min-w-[56px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="rs-akun" href="#"><span class="material-symbols-outlined text-[22px]">local_hospital</span><span class="font-label-sm text-label-sm mt-0.5">RS &amp; Akun</span></a></div></nav></body></html>

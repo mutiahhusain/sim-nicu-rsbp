@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><title>NeoCare NICU</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: 'class', theme: { extend: { 'colors': { 'on-primary-fixed': '#001f29', 'surface-container': '#e5eeff', 'on-primary-fixed-variant': '#004d62', 'on-secondary-fixed': '#00174b', 'surface-container-lowest': '#ffffff', 'on-secondary-container': '#fefcff', 'inverse-on-surface': '#eaf1ff', 'surface-container-low': '#eff4ff', 'primary-fixed-dim': '#81d1f0', 'on-tertiary-fixed-variant': '#005137', 'secondary-fixed': '#dbe1ff', 'error': '#ba1a1a', 'secondary-container': '#316bf3', 'error-container': '#ffdad6', 'inverse-primary': '#81d1f0', 'background': '#f8f9ff', 'outline': '#6f787d', 'tertiary-fixed-dim': '#68dba9', 'on-tertiary-container': '#a3ffd2', 'surface-tint': '#006781', 'surface-container-high': '#dce9ff', 'surface-dim': '#cbdbf5', 'surface-variant': '#d3e4fe', 'on-background': '#0b1c30', 'on-secondary': '#ffffff', 'primary': '#005a71', 'on-error': '#ffffff', 'secondary': '#0051d5', 'on-error-container': '#93000a', 'on-primary': '#ffffff', 'outline-variant': '#bec8cd', 'surface-bright': '#f8f9ff', 'inverse-surface': '#213145', 'on-secondary-fixed-variant': '#003ea8', 'tertiary': '#005f41', 'primary-container': '#0e7490', 'on-tertiary-fixed': '#002114', 'on-tertiary': '#ffffff', 'primary-fixed': '#b9eaff', 'surface-container-highest': '#d3e4fe', 'on-surface-variant': '#3f484c', 'surface': '#f8f9ff', 'tertiary-container': '#007a54', 'on-surface': '#0b1c30', 'secondary-fixed-dim': '#b4c5ff', 'tertiary-fixed': '#85f8c4', 'on-primary-container': '#d3f1ff' }, 'borderRadius': { 'DEFAULT': '0.125rem', 'lg': '0.25rem', 'xl': '0.5rem', 'full': '0.75rem' }, 'spacing': { 'card-padding-sm': '0.75rem', 'gutter-desktop': '2rem', 'card-padding-md': '1.25rem', 'gutter-mobile': '1rem', 'header-height': '4rem', 'vital-grid-gap': '0.75rem', 'card-padding-lg': '1.5rem', 'stepper-gap': '1.5rem', 'gutter-tablet': '1.5rem' }, 'fontFamily': { 'label-sm': ['Inter'], 'label-md': ['Inter'], 'body-sm': ['Inter'], 'body-md': ['Inter'], 'display-lg': ['Plus Jakarta Sans'], 'headline-sm': ['Plus Jakarta Sans'], 'body-lg': ['Inter'], 'vital-metric-md': ['Inter'], 'headline-md': ['Plus Jakarta Sans'], 'vital-metric-lg': ['Inter'], 'headline-lg': ['Plus Jakarta Sans'], 'code-tabular': ['Inter'] }, 'fontSize': { 'label-sm': ['11px', { 'lineHeight': '14px', 'letterSpacing': '0.04em', 'fontWeight': '600' }], 'label-md': ['13px', { 'lineHeight': '16px', 'fontWeight': '500' }], 'body-sm': ['12px', { 'lineHeight': '18px', 'fontWeight': '400' }], 'body-md': ['14px', { 'lineHeight': '20px', 'fontWeight': '400' }], 'display-lg': ['32px', { 'lineHeight': '40px', 'letterSpacing': '-0.02em', 'fontWeight': '700' }], 'headline-sm': ['16px', { 'lineHeight': '24px', 'fontWeight': '600' }], 'body-lg': ['16px', { 'lineHeight': '24px', 'fontWeight': '400' }], 'vital-metric-md': ['20px', { 'lineHeight': '24px', 'letterSpacing': '-0.01em', 'fontWeight': '700' }], 'headline-md': ['20px', { 'lineHeight': '28px', 'letterSpacing': '-0.01em', 'fontWeight': '600' }], 'vital-metric-lg': ['28px', { 'lineHeight': '32px', 'letterSpacing': '-0.02em', 'fontWeight': '700' }], 'headline-lg': ['24px', { 'lineHeight': '32px', 'letterSpacing': '-0.015em', 'fontWeight': '600' }], 'code-tabular': ['12px', { 'lineHeight': '16px', 'fontWeight': '500' }] } } } }</script><style>@layer base { html, body { width: 100vw; margin: 0; padding: 0; min-height: 100%; } body { overscroll-behavior: none; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style></head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter-mobile flex items-center justify-between"><div class="flex items-center gap-2 min-w-0"><img alt="NICU Care Logo" class="h-8 w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLCpamkKFRUYK83Izxrq4Y_sPiz4_hatqgvlXNgap0O34dh9gZoMHpqc8exr5CnyaIKlaVUQES-BCg1PXmjlGEMoce76EfcKAOWwkZFsUXMQJJv2lXVASqC-Nj-bXu0b6M7dI1akHs16LLk55fwgIfxSnFIy8wE32_w95025ZgBxiVsoaQnlL8j_NoMghHWisi3mUD5wI0UAmEY59r5ZPpwSC1T1oRJQNyXtCpBzCVOqep9S-ZJNg7"/><div class="flex flex-col min-w-0"><div class="flex items-center gap-1.5"><span class="font-headline-sm text-headline-sm text-primary tracking-tight truncate">NeoCare NICU</span><span class="hidden sm:inline-block font-label-sm text-label-sm text-on-surface-variant font-normal">| Beranda</span></div><div class="flex items-center gap-1.5 mt-0.5"><span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-tertiary-container animate-pulse"></span><span class="truncate max-w-[140px]">Ruang NICU - RS Ibu &amp; Anak</span></span></div></div></div><div class="flex items-center gap-1.5 shrink-0"><button aria-label="Alert Klinis" class="w-11 h-11 flex items-center justify-center rounded-full hover:bg-surface-container-high text-on-surface-variant transition-colors relative" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error ring-2 ring-surface"></span></button><div class="flex items-center gap-1.5 pl-1"><div class="hidden sm:flex flex-col text-right"><span class="font-label-sm text-label-sm text-on-surface font-semibold truncate max-w-[110px]">dr. Sp.A</span><span class="font-label-sm text-label-sm text-on-surface-variant">Admin Unit</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_1px_4px_rgba(0,0,0,0.12)] shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-24 bg-surface"><div class="flex flex-col w-full px-gutter-mobile space-y-4 pt-3 pb-8">
+<!-- Warm & Clinical Greeting Header Banner -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low p-card-padding-md shadow-sm">
+<div class="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] mr-1 text-primary">verified_user</span>
+            Ruang NICU Level III
+          </span>
+<span class="inline-flex items-center gap-1 font-code-tabular text-code-tabular text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container animate-pulse"></span>
+            Shift Siang (14:00 - 21:00)
+          </span>
+</div>
+<h1 class="font-headline-md text-headline-md text-on-surface font-semibold tracking-tight">
+          Selamat Bertugas, dr. Hendra, Sp.A(K)
+        </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">calendar_today</span>
+<span>Kamis, 24 Oktober 2024 • Sinkronisasi Telemetri Aktif</span>
+</p>
+</div>
+<!-- Bed Occupancy Mini Radial / Indicator Pill -->
+<div class="flex items-center gap-3 bg-surface-container-lowest p-2.5 rounded-lg shadow-sm self-start sm:self-center">
+<div class="relative w-10 h-10 flex items-center justify-center">
+<svg class="w-10 h-10 -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-primary-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="87.5, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-label-sm text-label-sm font-bold text-primary">88%</span>
+</div>
+<div class="flex flex-col pr-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Keterisian Unit</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">14 / 16 Bed</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Stat Cards (2x2 Grid on Mobile) -->
+<div class="grid grid-cols-2 gap-2.5">
+<!-- Card 1: Total Pasien -->
+<div class="bg-surface-container-lowest p-card-padding-sm rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Total Rawat</span>
+<div class="w-7 h-7 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">child_care</span>
+</div>
+</div>
+<div class="mt-2">
+<div class="font-vital-metric-lg text-vital-metric-lg text-on-surface">14 <span class="font-body-sm text-body-sm font-normal text-on-surface-variant">Bayi</span></div>
+<div class="mt-1 flex items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>Kapasitas 87.5%</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Kondisi Kritis / Ventilator (Alert) -->
+<div class="bg-surface-container-lowest p-card-padding-sm rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-error font-semibold">Kritis &amp; Ventilator</span>
+<div class="w-7 h-7 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+</div>
+</div>
+<div class="mt-2">
+<div class="font-vital-metric-lg text-vital-metric-lg text-error">4 <span class="font-body-sm text-body-sm font-normal text-on-surface-variant">Bayi</span></div>
+<div class="mt-1 inline-flex items-center px-1.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">
+          High Alert Respi
+        </div>
+</div>
+</div>
+<!-- Card 3: CPAP / High Flow -->
+<div class="bg-surface-container-lowest p-card-padding-sm rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">CPAP / High Flow</span>
+<div class="w-7 h-7 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">air</span>
+</div>
+</div>
+<div class="mt-2">
+<div class="font-vital-metric-lg text-vital-metric-lg text-on-surface">6 <span class="font-body-sm text-body-sm font-normal text-on-surface-variant">Bayi</span></div>
+<div class="mt-1 flex items-center text-secondary font-label-sm text-label-sm font-medium">
+          4 Bubble CPAP, 2 HFNC
+        </div>
+</div>
+</div>
+<!-- Card 4: Rencana Pulang -->
+<div class="bg-surface-container-lowest p-card-padding-sm rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-tertiary font-semibold">Rencana Pulang</span>
+<div class="w-7 h-7 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[18px]">home_health</span>
+</div>
+</div>
+<div class="mt-2">
+<div class="font-vital-metric-lg text-vital-metric-lg text-tertiary">2 <span class="font-body-sm text-body-sm font-normal text-on-surface-variant">Bayi</span></div>
+<div class="mt-1 inline-flex items-center px-1.5 py-0.5 rounded-full bg-surface-container-high text-tertiary font-label-sm text-label-sm">
+          Edukasi PMK Siap
+        </div>
+</div>
+</div>
+</div>
+<!-- Primary Diagnosis Breakdown Chart -->
+<div class="bg-surface-container-lowest p-card-padding-md rounded-xl shadow-sm">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary">pie_chart</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Distribusi Diagnosis Utama</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-code-tabular">N = 14 Kasus</span>
+</div>
+<div class="space-y-3">
+<!-- 1. RDS -->
+<div class="space-y-1">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="text-on-surface font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+            Respiratory Distress Syndrome (RDS)
+          </span>
+<span class="font-code-tabular text-code-tabular text-on-surface-variant font-semibold">5 Bayi (36%)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 36%"></div>
+</div>
+</div>
+<!-- 2. BBLR -->
+<div class="space-y-1">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="text-on-surface font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+            Berat Bayi Lahir Rendah (BBLR/BBLSR)
+          </span>
+<span class="font-code-tabular text-code-tabular text-on-surface-variant font-semibold">4 Bayi (29%)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 29%"></div>
+</div>
+</div>
+<!-- 3. Asfiksia Neonatorum -->
+<div class="space-y-1">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="text-on-surface font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+            Asfiksia Neonatorum Sedang-Berat
+          </span>
+<span class="font-code-tabular text-code-tabular text-on-surface-variant font-semibold">2 Bayi (14%)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-error rounded-full" style="width: 14%"></div>
+</div>
+</div>
+<!-- 4. Hiperbilirubinemia -->
+<div class="space-y-1">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="text-on-surface font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+            Hiperbilirubinemia / Fototerapi Intensif
+          </span>
+<span class="font-code-tabular text-code-tabular text-on-surface-variant font-semibold">2 Bayi (14%)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-secondary-container rounded-full" style="width: 14%"></div>
+</div>
+</div>
+<!-- 5. Sepsis Neonatorum -->
+<div class="space-y-1">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="text-on-surface font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+            Sepsis Neonatorum Awitan Dini
+          </span>
+<span class="font-code-tabular text-code-tabular text-on-surface-variant font-semibold">1 Bayi (7%)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-tertiary rounded-full" style="width: 7%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Attention List (Patients Requiring Vigilance) -->
+<div class="space-y-2.5">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[20px] text-error">notification_important</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Perhatian Khusus Shift Ini</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">2 Pasien Prioritas</span>
+</div>
+<!-- Patient 1: By. Ny. Rahma -->
+<div class="bg-surface-container-lowest rounded-xl p-card-padding-md shadow-sm relative overflow-hidden transition-all hover:shadow-md">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-error"></div>
+<div class="flex items-start justify-between gap-2 pl-1">
+<div>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">By. Ny. Rahma</span>
+<span class="font-code-tabular text-code-tabular px-1.5 py-0.5 rounded bg-surface-container text-on-surface font-semibold">RM-2024-0891</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">Inkubator 02</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+            Usia Gestasi: <span class="font-semibold text-on-surface">28 Minggu</span> • Berat Lahir: <span class="font-semibold text-on-surface">1.150 g</span>
+</p>
+</div>
+<span class="shrink-0 px-2 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-ping"></span>
+          Observasi Ketat
+        </span>
+</div>
+<!-- Clinical Diagnostic Pill & Telemetry Snapshot -->
+<div class="mt-3 grid grid-cols-3 gap-2 bg-surface-container-low p-2 rounded-lg font-code-tabular text-code-tabular pl-2">
+<div>
+<span class="text-on-surface-variant text-[11px] block">Diagnosis</span>
+<span class="font-semibold text-error text-label-sm">RDS Berat</span>
+</div>
+<div>
+<span class="text-on-surface-variant text-[11px] block">Respirasi</span>
+<span class="font-semibold text-on-surface text-label-sm">Vent. PC-SIMV</span>
+</div>
+<div>
+<span class="text-on-surface-variant text-[11px] block">SpO2 / FiO2</span>
+<span class="font-semibold text-on-surface text-label-sm">92% / 40%</span>
+</div>
+</div>
+<div class="mt-2.5 flex items-center justify-between pt-1">
+<div class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-primary">stethoscope</span>
+<span>DPJP: <strong class="text-on-surface font-semibold">dr. Hendra, Sp.A(K)</strong></span>
+</div>
+<button class="inline-flex items-center gap-1 text-primary hover:text-on-primary-fixed font-label-sm text-label-sm font-semibold" type="button">
+          Detail Vitals
+          <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Patient 2: By. Ny. Siti Aisyah -->
+<div class="bg-surface-container-lowest rounded-xl p-card-padding-md shadow-sm relative overflow-hidden transition-all hover:shadow-md">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-tertiary"></div>
+<div class="flex items-start justify-between gap-2 pl-1">
+<div>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">By. Ny. Siti Aisyah</span>
+<span class="font-code-tabular text-code-tabular px-1.5 py-0.5 rounded bg-surface-container text-on-surface font-semibold">RM-2024-0895</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">Inkubator 06</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+            Usia Gestasi: <span class="font-semibold text-on-surface">32 Minggu</span> • Berat: <span class="font-semibold text-on-surface">1.620 g (+25g/hr)</span>
+</p>
+</div>
+<span class="shrink-0 px-2 py-1 rounded-full bg-surface-container-high text-tertiary font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+          Weaning CPAP
+        </span>
+</div>
+<!-- Clinical Diagnostic Pill & Telemetry Snapshot -->
+<div class="mt-3 grid grid-cols-3 gap-2 bg-surface-container-low p-2 rounded-lg font-code-tabular text-code-tabular pl-2">
+<div>
+<span class="text-on-surface-variant text-[11px] block">Diagnosis</span>
+<span class="font-semibold text-on-surface text-label-sm">BBLR / Immatur</span>
+</div>
+<div>
+<span class="text-on-surface-variant text-[11px] block">Respirasi</span>
+<span class="font-semibold text-on-surface text-label-sm">Bubble CPAP PEEP 6</span>
+</div>
+<div>
+<span class="text-on-surface-variant text-[11px] block">Nutrisi TPN/ASI</span>
+<span class="font-semibold text-tertiary text-label-sm">ASI 8x12ml</span>
+</div>
+</div>
+<div class="mt-2.5 flex items-center justify-between pt-1">
+<div class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-primary">stethoscope</span>
+<span>DPJP: <strong class="text-on-surface font-semibold">dr. Anita, Sp.A</strong></span>
+</div>
+<button class="inline-flex items-center gap-1 text-primary hover:text-on-primary-fixed font-label-sm text-label-sm font-semibold" type="button">
+          Detail Vitals
+          <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Warm Humanizing Bedside Vignette Placeholder -->
+<div class="relative overflow-hidden rounded-xl shadow-sm bg-surface-container-low p-3 flex items-center gap-3">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A warm, sterile modern NICU environment with a medical incubator softly glowing under ambient hospital lighting, monitored by professional nursing staff wearing clinical scrubs in deep teal and cyan tones, gentle medical care aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsMhe3ggiDkH1VyuDbmT31ES8zY8aTl4S94MmTjdBaKZRY7BaRXmPUhKNPix0DeQEn-36z7cFGM7XYocqQsiFOTHbl-86Gr87lSsC-4luRdqvP8KO57hDP8m6F4BkoG-5rjp9uHQQ2uqZtIeXbgOdr_Pwd8XADoOUz-FyTRzVfOzQ507DZOepgQNnwxhahPOpIKHXqPj_HBMxTw4lk5kozOgvYS_qSsvqwST9yA6e73dAo5uPRJHQX"/>
+</div>
+<div class="flex flex-col justify-center min-w-0 pr-1">
+<span class="font-label-sm text-label-sm text-tertiary font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+        Protokol Kangaroo Mother Care
+      </span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold truncate">Sesi Kontak Kulit Hari Ini</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-0.5">
+        2 pasang orang tua telah dijadwalkan sesi KMC pukul 15:30. Evaluasi toleransi termoregulasi bayi sebelum pelaksanaan.
+      </p>
+</div>
+</div>
+<!-- Quick Action Buttons -->
+<div class="space-y-2 pt-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold px-1">Aksi Cepat Tim Medis</span>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+<!-- 1. Registrasi Pasien Baru -->
+<button class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-primary text-on-primary font-headline-sm text-headline-sm font-semibold shadow-sm hover:bg-on-primary-fixed-variant active:scale-[0.99] transition-all" id="btn-registrasi" type="button">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+<span>Registrasi Pasien Baru</span>
+</button>
+<!-- 2. Cetak Sensus Harian -->
+<button class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-surface-container-high text-on-surface font-headline-sm text-headline-sm font-semibold shadow-sm hover:bg-surface-container-highest active:scale-[0.99] transition-all" id="btn-sensus" type="button">
+<span class="material-symbols-outlined text-[20px] text-primary">print</span>
+<span>Cetak Sensus Harian</span>
+</button>
+<!-- 3. Cek Pasien Pulang -->
+<button class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-surface-container-lowest text-tertiary font-headline-sm text-headline-sm font-semibold shadow-sm hover:bg-surface-container-low active:scale-[0.99] transition-all" id="btn-pulang" type="button">
+<span class="material-symbols-outlined text-[20px] text-tertiary">assignment_turned_in</span>
+<span>Cek Pasien Pulang (2)</span>
+</button>
+</div>
+</div>
+<!-- Micro Interaction Toast / Notification Container (Triggered via JS) -->
+<div class="fixed bottom-20 left-1/2 -translate-x-1/2 max-w-sm w-[90%] bg-inverse-surface text-inverse-on-surface px-4 py-2.5 rounded-lg shadow-lg flex items-center justify-between gap-3 opacity-0 pointer-events-none transition-all duration-300 z-50" id="action-toast">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-fixed text-[20px]" id="toast-icon">check_circle</span>
+<span class="font-body-sm text-body-sm font-medium" id="toast-text">Sensus harian berhasil diunduh.</span>
+</div>
+<button class="text-inverse-on-surface hover:text-white" onclick="hideToast()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<script>
+  function showToast(message, icon = 'check_circle') {
+    const toast = document.getElementById('action-toast');
+    const toastText = document.getElementById('toast-text');
+    const toastIcon = document.getElementById('toast-icon');
+    if (!toast || !toastText || !toastIcon) return;
+
+    toastText.innerText = message;
+    toastIcon.innerText = icon;
+    toast.classList.remove('opacity-0', 'pointer-events-none');
+    toast.classList.add('opacity-100');
+
+    clearTimeout(window.toastTimeout);
+    window.toastTimeout = setTimeout(() => {
+      hideToast();
+    }, 3500);
+  }
+
+  function hideToast() {
+    const toast = document.getElementById('action-toast');
+    if (toast) {
+      toast.classList.remove('opacity-100');
+      toast.classList.add('opacity-0', 'pointer-events-none');
+    }
+  }
+
+  document.getElementById('btn-registrasi')?.addEventListener('click', () => {
+    showToast('Membuka formulir pendaftaran neonatal darurat...', 'app_registration');
+  });
+
+  document.getElementById('btn-sensus')?.addEventListener('click', () => {
+    showToast('Sensus harian NICU terverifikasi & siap dicetak (PDF)', 'description');
+  });
+
+  document.getElementById('btn-pulang')?.addEventListener('click', () => {
+    showToast('Membuka checklist verifikasi kepulangan 2 pasien', 'fact_check');
+  });
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.05)]" data-active-classes="text-primary font-semibold"><div class="flex justify-around items-center h-16 px-2 relative"><a aria-current="page" class="flex-1 flex flex-col items-center justify-center h-full min-w-[56px] transition-colors text-primary font-semibold" data-path="beranda" href="#"><span class="material-symbols-outlined text-[22px]">monitoring</span><span class="font-label-sm text-label-sm mt-0.5">Beranda</span></a><a class="flex-1 flex flex-col items-center justify-center h-full min-w-[56px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="pasien" href="#"><span class="material-symbols-outlined text-[22px]">format_list_bulleted</span><span class="font-label-sm text-label-sm mt-0.5">Pasien</span></a><div class="flex-1 flex flex-col items-center justify-center h-full min-w-[56px] relative"><a class="-top-4 absolute w-12 h-12 rounded-full bg-primary-container text-on-primary shadow-[0_4px_10px_rgba(14,116,144,0.35)] flex items-center justify-center hover:bg-primary transition-all active:scale-95" data-path="tambah-pasien" href="#"><span class="material-symbols-outlined text-[26px]">add</span></a><span class="font-label-sm text-label-sm text-on-surface-variant mt-7">+ Pasien</span></div><a class="flex-1 flex flex-col items-center justify-center h-full min-w-[56px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="laporan" href="#"><span class="material-symbols-outlined text-[22px]">description</span><span class="font-label-sm text-label-sm mt-0.5">Laporan</span></a><a class="flex-1 flex flex-col items-center justify-center h-full min-w-[56px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="rs-akun" href="#"><span class="material-symbols-outlined text-[22px]">local_hospital</span><span class="font-label-sm text-label-sm mt-0.5">RS &amp; Akun</span></a></div></nav></body></html>
