@@ -91,7 +91,10 @@ export default function PatientDetail() {
   const handleSave = async () => {
     setSaving(true)
     try {
-      await updatePatient(patientIdentifier, editData)
+      const updates = Object.fromEntries(
+        Object.entries(editData).map(([k, v]) => [k, (v === '' || v === null) ? null : v])
+      )
+      await updatePatient(patientIdentifier, updates)
       showToast('Data pasien diperbarui', 'check_circle')
       navigate(`/pasien/${id}`, { replace: true })
     } catch (err) {
