@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { usePatients } from '../context/PatientContext'
 import { showToast } from '../utils/toast'
@@ -48,23 +48,16 @@ const StatCard = ({ label, value, icon, color }) => (
 )
 
 export default function PatientTable() {
-  const { patients, deletePatient, updatePatient } = usePatients()
+  const { patients, deletePatient } = usePatients()
   const navigate = useNavigate()
   const [search, setSearch] = useState('')
   const [activeFilter, setActiveFilter] = useState('all')
   const [page, setPage] = useState(1)
-  const [editingId, setEditingId] = useState(null)
-  const [editData, setEditData] = useState({})
   const [deletingId, setDeletingId] = useState(null)
   const [viewMode, setViewMode] = useState('cards')
   const [sortConfig, setSortConfig] = useState({ key: 'created_at', direction: 'desc' })
   const [activeMonth, setActiveMonth] = useState('all')
   const [activeYear, setActiveYear] = useState('all')
-
-  useEffect(() => {
-    setEditingId(null)
-    setEditData({})
-  }, [patients])
 
   const currentYear = new Date().getFullYear()
   const years = useMemo(() => Array.from({ length: 5 }, (_, i) => currentYear - i), [currentYear])
@@ -157,26 +150,7 @@ export default function PatientTable() {
     }))
   }
 
-  const handleEdit = (patient) => {
-    setEditingId(patient.id)
-    setEditData({ bed: patient.bed || '', status: patient.status || '', dpjp: patient.dpjp || '' })
-  }
-
-  const handleSaveEdit = async (id) => {
-    try {
-      await updatePatient(id, editData)
-      showToast('Data pasien diperbarui', 'check_circle')
-      setEditingId(null)
-      setEditData({})
-    } catch (err) {
-      showToast('Gagal update: ' + err.message, 'error')
-    }
-  }
-
-  const handleCancelEdit = () => {
-    setEditingId(null)
-    setEditData({})
-  }
+  const getPatientId = (patient) => patient.medical_record_number || String(patient.id)
 
   const handleDelete = async (id, name) => {
     if (!window.confirm(`Hapus pasien "${name}"? Tindakan ini tidak bisa dibatalkan.`)) return
@@ -314,24 +288,15 @@ export default function PatientTable() {
             {/* Card View */}
             {viewMode === 'cards' && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-                {paginatedPatients.map((patient) => {
-                  const isEditing = String(editingId) === String(patient.id)
+                  {paginatedPatients.map((patient) => {
                   const statusConfig = getStatusConfig(patient.dataStatus)
                   const genderConfig = getGenderConfig(patient.gender)
+                  const patientId = getPatientId(patient)
                   return (
-                    <article key={patient.id} className={`group relative bg-white dark:bg-surface-container-low rounded-2xl border border-surface-variant/50 shadow-sm hover:shadow-xl transition-all duration-300 ${isEditing ? 'ring-2 ring-primary' : ''}`}>
+                    <article key={patient.id} className="group relative bg-white dark:bg-surface-container-low rounded-2xl border border-surface-variant/50 shadow-sm hover:shadow-xl transition-all duration-300">
                       <div className="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        {isEditing ? (
-                          <>
-                            <button onClick={() => handleSaveEdit(patient.id)} className="p-2 rounded-xl bg-tertiary text-on-tertiary hover:bg-tertiary/90 transition-colors" aria-label="Simpan"><span className="material-symbols-outlined text-[18px]">check</span></button>
-                            <button onClick={handleCancelEdit} className="p-2 rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors" aria-label="Batal"><span className="material-symbols-outlined text-[18px]">close</span></button>
-                          </>
-                        ) : (
-                          <>
-                            <button onClick={() => handleEdit(patient)} className="p-2 rounded-xl bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-surface-container transition-colors shadow-sm" aria-label="Edit"><span className="material-symbols-outlined text-[18px]">edit</span></button>
-                            <button onClick={() => handleDelete(patient.id, patient.name)} disabled={deletingId === patient.id} className={`p-2 rounded-xl transition-colors ${deletingId === patient.id ? 'bg-error-container text-error' : 'bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-error-container hover:text-error shadow-sm'}`} aria-label="Hapus">{deletingId === patient.id ? <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span> : <span className="material-symbols-outlined text-[18px]">delete</span>}</button>
-                          </>
-                        )}
+                        <Link to={`/pasien/${patientId}?edit=true`} className="p-2 rounded-xl bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-surface-container transition-colors shadow-sm" aria-label="Edit"><span className="material-symbols-outlined text-[18px]">edit</span></Link>
+                        <button onClick={() => handleDelete(patientId, patient.name)} disabled={deletingId === patientId} className={`p-2 rounded-xl transition-colors ${deletingId === patientId ? 'bg-error-container text-error' : 'bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-error-container hover:text-error shadow-sm'}`} aria-label="Hapus">{deletingId === patientId ? <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span> : <span className="material-symbols-outlined text-[18px]">delete</span>}</button>
                       </div>
 
                       <div className="p-4 space-y-3">
@@ -352,26 +317,16 @@ export default function PatientTable() {
                         </div>
 
                         <div className="flex items-center gap-3 text-sm">
-                          {isEditing ? (
-                            <>
-                              <input value={editData.bed} onChange={e => setEditData({...editData, bed: e.target.value})} placeholder="Bed" className="px-2 py-1 rounded-lg bg-surface-container-low text-on-surface text-sm w-20" />
-                              <input value={editData.status} onChange={e => setEditData({...editData, status: e.target.value})} placeholder="Status" className="px-2 py-1 rounded-lg bg-surface-container-low text-on-surface text-sm w-36" />
-                              <input value={editData.dpjp} onChange={e => setEditData({...editData, dpjp: e.target.value})} placeholder="DPJP" className="px-2 py-1 rounded-lg bg-surface-container-low text-on-surface text-sm flex-1" />
-                            </>
-                          ) : (
-                            <>
-                              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-surface-container-low">
-                                <span className="material-symbols-outlined text-[16px] text-on-surface-variant">bed</span>
-                                <span className="font-medium text-on-surface">{patient.bed || '-'}</span>
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <Link to={`/pasien/${patient.medical_record_number || String(patient.id)}`} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors group">
-                                  <span className="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-colors">visibility</span>
-                                  <span className="text-sm text-on-surface-variant truncate">Detail</span>
-                                </Link>
-                              </div>
-                            </>
-                          )}
+                          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-surface-container-low">
+                            <span className="material-symbols-outlined text-[16px] text-on-surface-variant">bed</span>
+                            <span className="font-medium text-on-surface">{patient.bed || '-'}</span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <Link to={`/pasien/${patientId}`} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors group">
+                              <span className="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-colors">visibility</span>
+                              <span className="text-sm text-on-surface-variant truncate">Detail</span>
+                            </Link>
+                          </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-3 pt-1">
@@ -385,11 +340,7 @@ export default function PatientTable() {
                           </div>
                           <div className="p-3 rounded-xl bg-surface-container-lowest border border-surface-variant/50">
                             <p className="text-xs text-on-surface-variant font-medium">DPJP</p>
-                            {isEditing ? (
-                              <input value={editData.dpjp} onChange={e => setEditData({...editData, dpjp: e.target.value})} placeholder="DPJP" className="w-full px-2 py-1.5 rounded-lg bg-surface-container-low text-on-surface text-sm" />
-                            ) : (
-                              <p className="font-medium text-on-surface truncate">{patient.dpjp || '-'}</p>
-                            )}
+                            <p className="font-medium text-on-surface truncate">{patient.dpjp || '-'}</p>
                           </div>
                           <div className="p-3 rounded-xl bg-surface-container-lowest border border-surface-variant/50">
                             <p className="text-xs text-on-surface-variant font-medium">Diagnosis</p>
@@ -442,11 +393,11 @@ export default function PatientTable() {
                   </thead>
                   <tbody className="divide-y divide-surface-variant/50">
                     {paginatedPatients.map((patient) => {
-                      const isEditing = String(editingId) === String(patient.id)
                       const statusConfig = getStatusConfig(patient.dataStatus)
                       const genderConfig = getGenderConfig(patient.gender)
+                      const patientId = getPatientId(patient)
                       return (
-                        <tr key={patient.id} className={`${isEditing ? 'bg-primary/5' : 'hover:bg-surface-container-low/50'} transition-colors`}>
+                        <tr key={patient.id} className="hover:bg-surface-container-low/50 transition-colors">
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-3">
                               <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${genderConfig.bg}`}>
@@ -459,48 +410,27 @@ export default function PatientTable() {
                             </div>
                           </td>
                           <td className="px-4 py-3">
-                            {isEditing ? (
-                              <input value={editData.bed} onChange={e => setEditData({...editData, bed: e.target.value})} className="w-20 px-2 py-1 rounded-lg bg-surface-container-low text-on-surface text-sm" />
-                            ) : (
-                              <span className="px-2 py-1 rounded-full text-sm font-medium bg-surface-container-high text-on-surface">{patient.bed || '-'}</span>
-                            )}
+                            <span className="px-2 py-1 rounded-full text-sm font-medium bg-surface-container-high text-on-surface">{patient.bed || '-'}</span>
                           </td>
                           <td className="px-4 py-3">
-                            {isEditing ? (
-                              <input value={editData.status} onChange={e => setEditData({...editData, status: e.target.value})} className="w-32 px-2 py-1 rounded-lg bg-surface-container-low text-on-surface text-sm" />
-                            ) : (
-                              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${statusConfig.color}`}>
-                                <span className={`w-1.5 h-1.5 rounded-full ${statusConfig.dot}`}></span>
-                                {statusConfig.label}
-                              </span>
-                            )}
+                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${statusConfig.color}`}>
+                              <span className={`w-1.5 h-1.5 rounded-full ${statusConfig.dot}`}></span>
+                              {statusConfig.label}
+                            </span>
                           </td>
                           <td className="px-4 py-3 text-sm text-on-surface tabular-nums">{patient.birthWeight || '-'}</td>
                           <td className="px-4 py-3 text-sm text-on-surface">{patient.gestationalAge || '-'}</td>
                           <td className="px-4 py-3">
-                            {isEditing ? (
-                              <input value={editData.dpjp} onChange={e => setEditData({...editData, dpjp: e.target.value})} className="w-full px-2 py-1 rounded-lg bg-surface-container-low text-on-surface text-sm" />
-                            ) : (
-                              <p className="text-sm text-on-surface truncate max-w-xs">{patient.dpjp || '-'}</p>
-                            )}
+                            <p className="text-sm text-on-surface truncate max-w-xs">{patient.dpjp || '-'}</p>
                           </td>
                           <td className="px-4 py-3">
                             <p className="text-sm text-on-surface truncate max-w-xs">{patient.diagnosis || '-'}</p>
                           </td>
                           <td className="px-4 py-3">
                             <div className="flex items-center justify-end gap-1">
-                              {isEditing ? (
-                                <>
-                                  <button onClick={() => handleSaveEdit(patient.id)} className="p-2 rounded-lg bg-tertiary text-on-tertiary hover:bg-tertiary/90 transition-colors" aria-label="Simpan"><span className="material-symbols-outlined text-[18px]">check</span></button>
-                                  <button onClick={handleCancelEdit} className="p-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors" aria-label="Batal"><span className="material-symbols-outlined text-[18px]">close</span></button>
-                                </>
-                              ) : (
-                                <>
-                                  <Link to={`/pasien/${patient.medical_record_number || String(patient.id)}`} className="p-2 rounded-lg hover:bg-surface-container transition-colors" aria-label="Detail"><span className="material-symbols-outlined text-[18px] text-on-surface-variant">visibility</span></Link>
-                                  <button onClick={() => handleEdit(patient)} className="p-2 rounded-lg bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-surface-container transition-colors shadow-sm" aria-label="Edit"><span className="material-symbols-outlined text-[18px]">edit</span></button>
-                                  <button onClick={() => handleDelete(patient.id, patient.name)} disabled={deletingId === patient.id} className={`p-2 rounded-lg transition-colors ${deletingId === patient.id ? 'bg-error-container text-error' : 'bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-error-container hover:text-error shadow-sm'}`} aria-label="Hapus">{deletingId === patient.id ? <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span> : <span className="material-symbols-outlined text-[18px]">delete</span>}</button>
-                                </>
-                              )}
+                              <Link to={`/pasien/${patientId}`} className="p-2 rounded-lg hover:bg-surface-container transition-colors" aria-label="Detail"><span className="material-symbols-outlined text-[18px] text-on-surface-variant">visibility</span></Link>
+                              <Link to={`/pasien/${patientId}?edit=true`} className="p-2 rounded-lg bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-surface-container transition-colors shadow-sm" aria-label="Edit"><span className="material-symbols-outlined text-[18px]">edit</span></Link>
+                              <button onClick={() => handleDelete(patientId, patient.name)} disabled={deletingId === patientId} className={`p-2 rounded-lg transition-colors ${deletingId === patientId ? 'bg-error-container text-error' : 'bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-error-container hover:text-error shadow-sm'}`} aria-label="Hapus">{deletingId === patientId ? <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span> : <span className="material-symbols-outlined text-[18px]">delete</span>}</button>
                             </div>
                           </td>
                         </tr>

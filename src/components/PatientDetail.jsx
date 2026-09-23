@@ -1,11 +1,12 @@
-import { useParams, Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useParams, Link, useSearchParams, useNavigate } from 'react-router-dom'
 import { usePatients } from '../context/PatientContext'
+import { useEffect, useState } from 'react'
 import {
   fetchClinicalNotes,
   fetchPatientDiagnoses,
   fetchPatientTreatments,
 } from '../api/patients'
+import { showToast } from '../utils/toast'
 
 const formatDate = (date) => {
   if (!date) return ''
@@ -14,16 +15,46 @@ const formatDate = (date) => {
   return parsed.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })
 }
 
+const EDITABLE_FIELDS = [
+  { key: 'bed', label: 'Bed', placeholder: 'Bed' },
+  { key: 'status', label: 'Status', placeholder: 'Status' },
+  { key: 'dpjp', label: 'DPJP', placeholder: 'DPJP' },
+  { key: 'service_status', label: 'Service Status', placeholder: 'Service Status' },
+  { key: 'follow_up', label: 'Tindak Lanjut', placeholder: 'Tindak Lanjut' },
+  { key: 'respiratory_status', label: 'Status Pernapasan', placeholder: 'Status Pernapasan' },
+  { key: 'attention_status', label: 'Status Observasi', placeholder: 'Status Observasi' },
+  { key: 'spo2', label: 'SpO2', placeholder: 'SpO2' },
+  { key: 'nutrition_status', label: 'Status Nutrisi', placeholder: 'Status Nutrisi' },
+  { key: 'discharge_status', label: 'Status Pulang', placeholder: 'Status Pulang' },
+]
+
 export default function PatientDetail() {
   const { id } = useParams()
-  const { patients } = usePatients()
+  const [searchParams] = useSearchParams()
+  const isEditMode = searchParams.get('edit') === 'true'
+  const { patients, updatePatient } = usePatients()
+  const navigate = useNavigate()
+
   const patient = patients.find((p) => String(p.id) === id || String(p.medical_record_number) === id) || null
-  const patientId = patient?.id || patient?.medical_record_number
+  const patientId = patient?.medical_record_number || patient?.id
   const [clinicalNotes, setClinicalNotes] = useState([])
   const [diagnoses, setDiagnoses] = useState([])
   const [treatments, setTreatments] = useState([])
   const [clinicalLoading, setClinicalLoading] = useState(false)
   const [clinicalError, setClinicalError] = useState('')
+  const [editData, setEditData] = useState({})
+  const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    if (!patient) return
+
+    const initialEditData = {}
+    EDITABLE_FIELDS.forEach(f => {
+      const key = f.key
+      initialEditData[key] = patient[key] !== undefined && patient[key] !== null ? patient[key] : ''
+    })
+    setEditData(initialEditData)
+  }, [patient])
 
   useEffect(() => {
     if (!patientId) return
@@ -52,6 +83,27 @@ export default function PatientDetail() {
 
     return () => { cancelled = true }
   }, [patientId])
+
+  const handleEditChange = (key, value) => {
+    setEditData((prev) => ({ ...prev, [key]: value }))
+  }
+
+  const handleSave = async () => {
+    setSaving(true)
+    try {
+      await updatePatient(patientId, editData)
+      showToast('Data pasien diperbarui', 'check_circle')
+      navigate(`/pasien/${id}`, { replace: true })
+    } catch (err) {
+      showToast('Gagal menyimpan: ' + err.message, 'error')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleCancel = () => {
+    navigate(`/pasien/${id}`, { replace: true })
+  }
 
   if (!patient) {
     return (
@@ -91,6 +143,31 @@ export default function PatientDetail() {
           <h1 className="font-headline-md text-headline-md text-on-surface">Detail Pasien</h1>
           <p className="font-label-sm text-label-sm text-on-surface-variant">Ringkasan medis dan timeline perawatan</p>
         </div>
+        {isEditMode && (
+          <div className="ml-auto flex gap-2">
+            <button
+              onClick={handleCancel}
+              className="px-4 py-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-medium text-sm flex items-center gap-1.5"
+              type="button"
+            >
+              <span className="material-symbols-outlined text-[18px]">close</span>
+              <span>Batal</span>
+            </button>
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="px-4 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary/90 transition-colors font-medium text-sm flex items-center gap-1.5 shadow-lg shadow-primary/30 disabled:opacity-60"
+              type="button"
+            >
+              {saving ? (
+                <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
+              ) : (
+                <span className="material-symbols-outlined text-[18px]">save</span>
+              )}
+              <span>{saving ? 'Menyimpan...' : 'Simpan'}</span>
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="bg-surface-container-lowest rounded-xl p-card-padding-md shadow-sm space-y-4">
@@ -102,7 +179,7 @@ export default function PatientDetail() {
             <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <span className="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">{patient.name}</span>
-                <span className="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-code-tabular text-label-sm">{patient.bed}</span>
+                <span className="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-code-tabular text-label-sm">{patient.bed || '-'}</span>
               </div>
               <p className="font-code-tabular text-body-sm text-outline mt-0.5">No. RM: <span className="font-semibold text-on-surface">{patient.medical_record_number || patient.id}</span></p>
             </div>
@@ -140,6 +217,26 @@ export default function PatientDetail() {
             </span>
           </div>
         </div>
+
+        {isEditMode && (
+          <div className="bg-surface-container-low rounded-lg p-4 space-y-3">
+            <h3 className="font-headline-sm text-headline-sm text-on-surface font-semibold">Edit Data Pasien</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {EDITABLE_FIELDS.map((field) => (
+                <div key={field.key} className="sm:col-span-1">
+                  <label className="block font-label-sm text-label-sm text-on-surface-variant mb-1">{field.label}</label>
+                  <input
+                    type="text"
+                    value={editData[field.key] !== undefined ? editData[field.key] : ''}
+                    onChange={(e) => handleEditChange(field.key, e.target.value)}
+                    placeholder={field.placeholder}
+                    className="w-full px-3 py-2 rounded-lg bg-surface-container-lowest text-on-surface text-sm border border-outline-variant/50 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="flex flex-col gap-1.5 pt-0.5 text-body-sm font-body-sm">
           <div className="flex items-center justify-between gap-2">
