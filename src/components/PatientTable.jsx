@@ -295,7 +295,7 @@ export default function PatientTable() {
                   return (
                     <article key={patient.id} className="group relative bg-white dark:bg-surface-container-low rounded-2xl border border-surface-variant/50 shadow-sm hover:shadow-xl transition-all duration-300">
                       <div className="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Link to={`/pasien/${patientId}?edit=true`} className="p-2 rounded-xl bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-surface-container transition-colors shadow-sm" aria-label="Edit"><span className="material-symbols-outlined text-[18px]">edit</span></Link>
+                        <Link to={`/tambah-pasien?edit=${patientId}`} className="p-2 rounded-xl bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-surface-container transition-colors shadow-sm" aria-label="Edit"><span className="material-symbols-outlined text-[18px]">edit</span></Link>
                         <button onClick={() => handleDelete(patientId, patient.name)} disabled={deletingId === patientId} className={`p-2 rounded-xl transition-colors ${deletingId === patientId ? 'bg-error-container text-error' : 'bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-error-container hover:text-error shadow-sm'}`} aria-label="Hapus">{deletingId === patientId ? <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span> : <span className="material-symbols-outlined text-[18px]">delete</span>}</button>
                       </div>
 
@@ -429,7 +429,7 @@ export default function PatientTable() {
                           <td className="px-4 py-3">
                             <div className="flex items-center justify-end gap-1">
                               <Link to={`/pasien/${patientId}`} className="p-2 rounded-lg hover:bg-surface-container transition-colors" aria-label="Detail"><span className="material-symbols-outlined text-[18px] text-on-surface-variant">visibility</span></Link>
-                              <Link to={`/pasien/${patientId}?edit=true`} className="p-2 rounded-lg bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-surface-container transition-colors shadow-sm" aria-label="Edit"><span className="material-symbols-outlined text-[18px]">edit</span></Link>
+                              <Link to={`/tambah-pasien?edit=${patientId}`} className="p-2 rounded-lg bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-surface-container transition-colors shadow-sm" aria-label="Edit"><span className="material-symbols-outlined text-[18px]">edit</span></Link>
                               <button onClick={() => handleDelete(patientId, patient.name)} disabled={deletingId === patientId} className={`p-2 rounded-lg transition-colors ${deletingId === patientId ? 'bg-error-container text-error' : 'bg-white/80 dark:bg-surface-container/80 backdrop-blur-sm text-on-surface hover:bg-error-container hover:text-error shadow-sm'}`} aria-label="Hapus">{deletingId === patientId ? <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span> : <span className="material-symbols-outlined text-[18px]">delete</span>}</button>
                             </div>
                           </td>

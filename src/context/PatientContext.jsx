@@ -5,6 +5,8 @@ import {
   upsertPatient,
   insertPatientRecord,
   deletePatient as deletePatientFromSupabase,
+  deletePatientDiagnoses as deletePatientDiagnosesFromSupabase,
+  deletePatientTreatments as deletePatientTreatmentsFromSupabase,
   updatePatient as updatePatientFromSupabase,
 } from '../api/patients'
 
@@ -460,6 +462,38 @@ export function PatientProvider({ children }) {
     }
   }
 
+  const updatePatientWithRecords = async (id, updates, diagnosisForm, planForm) => {
+    try {
+      const saved = await updatePatient(id, updates)
+      if (saved) {
+        const patientDbId = saved.id
+        await deletePatientDiagnosesFromSupabase(patientDbId)
+        await deletePatientTreatmentsFromSupabase(patientDbId)
+
+        const validDiagnosisIds = (diagnosisForm?.diagnoses || []).filter(isValidUUID)
+        const validTreatmentIds = (planForm?.selectedTreatments || []).filter(isValidUUID)
+
+        if (validDiagnosisIds.length || validTreatmentIds.length) {
+          const dxForm = {
+            diagnoses: validDiagnosisIds,
+            keterangan: diagnosisForm?.keterangan || '',
+          }
+          const txForm = {
+            selectedTreatments: validTreatmentIds,
+            respiratoryDetail: planForm?.respiratoryDetail || '',
+            antibiotics: planForm?.antibiotics || '',
+            otherPlan: planForm?.otherPlan || '',
+          }
+          await insertPatientRecord(patientDbId, dxForm, txForm)
+        }
+      }
+      return saved
+    } catch (err) {
+      console.error('Gagal mengupdate pasien dengan rekam:', err)
+      throw err
+    }
+  }
+
   const reloadPatients = () => {
     setReloadTrigger(prev => prev + 1)
   }
@@ -470,6 +504,7 @@ export function PatientProvider({ children }) {
     addPatient,
     deletePatient,
     updatePatient,
+    updatePatientWithRecords,
     reloadPatients,
     loading,
   }

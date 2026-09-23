@@ -1,7 +1,8 @@
 import { useState, useCallback, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { showToast } from '../utils/toast'
 import { usePatients } from '../context/PatientContext'
+import { fetchPatientByRM, fetchPatientDiagnoses, fetchPatientTreatments } from '../api/patients'
 import TabIdentitas from './registration/TabIdentitas'
 import TabIdentifikasi from './registration/TabIdentifikasi'
 import TabDiagnosis from './registration/TabDiagnosis'
@@ -53,9 +54,86 @@ const initialForm = {
 
 const DRAFT_KEY = 'nicu-registration-draft'
 
+const supabaseToForm = (patient, diagnosisIds = [], treatmentIds = []) => ({
+  medicalRecordNumber: patient.medical_record_number || String(patient.id) || '',
+  babyName: patient.baby_name || '',
+  gender: patient.gender || '',
+  birthDate: patient.birth_date ? new Date(patient.birth_date).toISOString().split('T')[0] : '',
+  birthTime: patient.birth_time ? String(patient.birth_time).slice(0, 5) : '',
+  gestationalAge: patient.gestational_age ? String(patient.gestational_age) : '',
+  birthWeight: patient.birth_weight ? String(patient.birth_weight) : '',
+  twins: patient.twins || '',
+  roomOrigin: patient.room_origin || '',
+  referral: patient.referral || '',
+  bornAt: patient.born_at || '',
+  birthProcess: patient.birth_process || '',
+  serviceStatus: patient.service_status || '',
+  followUp: patient.follow_up || '',
+  dischargeDate: patient.discharge_date ? new Date(patient.discharge_date).toISOString().split('T')[0] : '',
+  dischargeRm: patient.discharge_rm ? String(patient.discharge_rm) : '',
+  contact: {
+    phone: patient.contact_phone || '',
+    address: patient.contact_address || '',
+    provinceCode: patient.province_code || '',
+    regencyCode: patient.regency_code || '',
+    districtCode: patient.district_code || '',
+    villageCode: patient.village_code || '',
+    postalCode: patient.postal_code || '',
+    emergencyName: patient.emergency_name || '',
+    emergencyRelation: patient.emergency_relation || '',
+    emergencyPhone: patient.emergency_phone || '',
+  },
+  diagnosis: {
+    diagnoses: diagnosisIds,
+    keterangan: '',
+  },
+  plan: {
+    selectedTreatments: treatmentIds,
+    respiratoryDetail: '',
+    vascularAccess: '',
+    nutrition: '',
+    antibiotics: '',
+    otherPlan: '',
+  },
+})
+
+const formToSupabaseUpdate = (form) => {
+  const contact = form.contact || {}
+  return {
+    baby_name: form.babyName,
+    gender: form.gender,
+    birth_date: form.birthDate,
+    birth_time: form.birthTime,
+    gestational_age: form.gestationalAge ? parseInt(form.gestationalAge, 10) : null,
+    birth_weight: form.birthWeight ? parseInt(form.birthWeight, 10) : null,
+    twins: form.twins || null,
+    room_origin: form.roomOrigin || null,
+    referral: form.referral || null,
+    born_at: form.bornAt || null,
+    birth_process: form.birthProcess || null,
+    service_status: form.serviceStatus || null,
+    follow_up: form.followUp || null,
+    discharge_date: form.dischargeDate || null,
+    discharge_rm: form.dischargeRm || null,
+    contact_phone: contact.phone || null,
+    contact_address: contact.address || null,
+    province_code: contact.provinceCode || null,
+    regency_code: contact.regencyCode || null,
+    district_code: contact.districtCode || null,
+    village_code: contact.villageCode || null,
+    postal_code: contact.postalCode || null,
+    emergency_name: contact.emergencyName || null,
+    emergency_relation: contact.emergencyRelation || null,
+    emergency_phone: contact.emergencyPhone || null,
+    status: form.serviceStatus || null,
+  }
+}
+
 export default function PatientRegistration() {
   const navigate = useNavigate()
-  const { addPatient } = usePatients()
+  const [searchParams] = useSearchParams()
+  const editId = searchParams.get('edit')
+  const { addPatient, updatePatientWithRecords } = usePatients()
   const [activeTab, setActiveTab] = useState(0)
   const [form, setForm] = useState(() => {
     try {
@@ -68,6 +146,49 @@ export default function PatientRegistration() {
   const [errors, setErrors] = useState({})
   const [rmFlash, setRmFlash] = useState(false)
   const [draftSaved, setDraftSaved] = useState(false)
+  const [isLoadingEdit, setIsLoadingEdit] = useState(!!editId)
+  const [editPatient, setEditPatient] = useState(null)
+
+  useEffect(() => {
+    if (!editId) {
+      setEditPatient(null)
+      setIsLoadingEdit(false)
+      return
+    }
+
+    setIsLoadingEdit(true)
+    fetchPatientByRM(editId)
+      .then((patient) => {
+        if (!patient) {
+          showToast('Pasien tidak ditemukan.', 'error')
+          navigate('/tambah-pasien')
+          return null
+        }
+        setEditPatient(patient)
+        setForm(supabaseToForm(patient))
+
+        const patientDbId = patient.id
+        return Promise.all([
+          fetchPatientDiagnoses(patientDbId),
+          fetchPatientTreatments(patientDbId),
+        ])
+          .then(([diag, treat]) => {
+            const diagIds = (diag || []).map((d) => d.diagnosis_id || d.diagnosis?.id).filter(Boolean)
+            const treatIds = (treat || []).map((t) => t.treatment_id || t.treatment?.id).filter(Boolean)
+            setForm((prev) => ({
+              ...prev,
+              diagnosis: { diagnoses: diagIds, keterangan: '' },
+              plan: { ...prev.plan, selectedTreatments: treatIds },
+            }))
+          })
+          .catch(() => {})
+      })
+      .catch((err) => {
+        showToast('Gagal memuat data pasien: ' + err.message, 'error')
+      })
+      .finally(() => setIsLoadingEdit(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editId])
 
   const tabs = [
     { id: 'identitas', label: 'Identitas', icon: '👤', component: 0 },
@@ -114,13 +235,14 @@ export default function PatientRegistration() {
   }
 
   useEffect(() => {
+    if (editId) return
     const timer = setTimeout(() => {
       try {
         localStorage.setItem(DRAFT_KEY, JSON.stringify(form))
       } catch {}
     }, 1000)
     return () => clearTimeout(timer)
-  }, [form])
+  }, [form, editId])
 
   const validate = useCallback(() => {
     const next = {}
@@ -154,11 +276,27 @@ export default function PatientRegistration() {
       return
     }
 
-    // diagnosis.diagnoses already holds master diagnosis IDs; pass form through to addPatient
     try {
-      await addPatient(form)
-      showToast('Formulir pendaftaran neonatal berhasil disubmit.', 'check_circle')
-      setForm(initialForm)
+      if (editPatient) {
+        const updates = formToSupabaseUpdate(form)
+        const diagnosisForm = {
+          diagnoses: form.diagnosis.diagnoses || [],
+          keterangan: form.diagnosis.keterangan || '',
+        }
+        const planForm = {
+          selectedTreatments: form.plan.selectedTreatments || [],
+          respiratoryDetail: form.plan.respiratoryDetail || '',
+          antibiotics: form.plan.antibiotics || '',
+          otherPlan: form.plan.otherPlan || '',
+        }
+        await updatePatientWithRecords(editId, updates, diagnosisForm, planForm)
+        showToast('Data pasien berhasil diperbarui.', 'check_circle')
+        navigate('/pasien')
+      } else {
+        await addPatient(form)
+        showToast('Formulir pendaftaran neonatal berhasil disubmit.', 'check_circle')
+        setForm(initialForm)
+      }
       setErrors({})
       setActiveTab(0)
     } catch {
@@ -180,29 +318,50 @@ export default function PatientRegistration() {
 
   return (
     <div className="flex flex-col w-full px-gutter-mobile py-4 space-y-5">
-      {/* Back to Dashboard */}
+      {/* Back to Dashboard / Patient List */}
       <div className="flex items-center justify-between">
         <button
           className="flex items-center gap-1 px-3 py-2 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md"
           type="button"
           onClick={() => {
-            if (window.confirm('Kembali ke Beranda? Data yang belum disubmit akan dibatalkan.')) {
-              navigate('/')
+            if (window.confirm('Kembali? Data yang belum disubmit akan dibatalkan.')) {
+              navigate(editPatient ? '/pasien' : '/')
             }
           }}
         >
           <span className="material-symbols-outlined text-[18px]">arrow_back</span>
-          <span>Beranda</span>
+          <span>{editPatient ? 'Daftar Pasien' : 'Beranda'}</span>
         </button>
-        <Link
-          to="/login"
-          className="text-sm text-on-surface-variant hover:text-on-surface"
-          onClick={() => navigate('/')}
-        >
-          <span className="material-symbols-outlined text-[16px] vertical-middle mr-1">logout</span>
-          <span>Batal &amp; Keluar</span>
-        </Link>
+        {!editPatient && (
+          <Link
+            to="/login"
+            className="text-sm text-on-surface-variant hover:text-on-surface"
+            onClick={() => navigate('/')}
+          >
+            <span className="material-symbols-outlined text-[16px] vertical-middle mr-1">logout</span>
+            <span>Batal &amp; Keluar</span>
+          </Link>
+        )}
       </div>
+
+      {editPatient && (
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+            <span className="material-symbols-outlined text-[24px]">edit</span>
+          </div>
+          <div>
+            <h1 className="font-headline-md text-headline-md text-on-surface">Edit Pasien</h1>
+            <p className="font-label-sm text-label-sm text-on-surface-variant">No. RM: {editPatient.medical_record_number || editPatient.id}</p>
+          </div>
+        </div>
+      )}
+
+      {isLoadingEdit && (
+        <div className="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant">
+          <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
+          <span>Memuat data pasien untuk diedit...</span>
+        </div>
+      )}
 
       {/* Tab Navigation */}
       <section className="w-full bg-surface-container-lowest rounded-xl p-2 shadow-sm">
@@ -233,6 +392,7 @@ export default function PatientRegistration() {
             onChange={handleChange}
             onGenerateRM={handleGenerateRM}
             rmFlash={rmFlash}
+            isEditing={!!editPatient}
           />
         )}
         {activeTab === 1 && (
@@ -318,7 +478,7 @@ export default function PatientRegistration() {
                 </button>
               ) : (
                 <button className="px-4 py-2.5 rounded-lg bg-primary text-on-primary hover:bg-on-primary-fixed shadow-[0_2px_8px_rgba(14,116,144,0.35)] active:scale-[0.98] transition-all flex items-center gap-1.5 font-label-md text-label-md font-semibold" type="submit">
-                  <span>Submit</span>
+                  <span>{editPatient ? 'Perbarui' : 'Submit'}</span>
                   <span className="material-symbols-outlined text-[18px]">check</span>
                 </button>
               )}

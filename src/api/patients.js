@@ -143,6 +143,20 @@ export async function deletePatient(id) {
   return true
 }
 
+export async function deletePatientDiagnoses(patientId) {
+  if (!supabase || !patientId) return null
+  const { error } = await supabase.from('patient_diagnoses').delete().eq('patient_id', patientId)
+  if (error) throw error
+  return true
+}
+
+export async function deletePatientTreatments(patientId) {
+  if (!supabase || !patientId) return null
+  const { error } = await supabase.from('patient_treatments').delete().eq('patient_id', patientId)
+  if (error) throw error
+  return true
+}
+
 export async function updatePatient(medicalRecordNumber, updates) {
   if (!supabase) return null
   const { data, error } = await supabase

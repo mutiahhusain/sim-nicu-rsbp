@@ -1,7 +1,7 @@
 import { useMaster } from '../../context/Master'
 import CascadingSelect from './CascadingSelect'
 
-export default function TabIdentitas({ form, errors, onChange, onGenerateRM, rmFlash }) {
+export default function TabIdentitas({ form, errors, onChange, onGenerateRM, rmFlash, isEditing }) {
   const inputBase = 'w-full pl-3 pr-3 py-2.5 bg-surface-container-low rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline-variant focus:outline-none focus:bg-surface-container-lowest focus:shadow-[0_0_0_2px_rgba(14,116,144,0.35)] transition-all'
   const inputError = 'border border-error'
 
@@ -42,20 +42,21 @@ export default function TabIdentitas({ form, errors, onChange, onGenerateRM, rmF
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
             <label className="font-label-md text-label-md text-on-surface font-medium" htmlFor="medical-record-number">Nomor Rekam Medis (RM)</label>
-            <button className={`font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-0.5 ${rmFlash ? 'text-tertiary' : 'text-primary hover:text-primary-container'}`} type="button" onClick={onGenerateRM}>
-              Auto-generate
-            </button>
+              <button className={`font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-0.5 ${rmFlash ? 'text-tertiary' : 'text-primary hover:text-primary-container'} ${isEditing ? 'opacity-50 cursor-not-allowed' : ''}`} type="button" onClick={onGenerateRM} disabled={isEditing}>
+                Auto-generate
+              </button>
           </div>
           <div className="relative flex items-center">
               <input
-                className={`w-full px-3 py-2.5 bg-surface-container-low rounded-lg font-code-tabular text-code-tabular text-on-surface focus:outline-none focus:bg-surface-container-lowest focus:shadow-[0_0_0_2px_rgba(14,116,144,0.35)] transition-all ${errors.medicalRecordNumber ? inputError : ''}`}
-              id="medical-record-number"
-              name="medicalRecordNumber"
-              required
-              type="text"
-              value={form.medicalRecordNumber}
-              onChange={onChange('medicalRecordNumber')}
-            />
+                className={`w-full px-3 py-2.5 bg-surface-container-low rounded-lg font-code-tabular text-code-tabular text-on-surface focus:outline-none focus:bg-surface-container-lowest focus:shadow-[0_0_0_2px_rgba(14,116,144,0.35)] transition-all ${errors.medicalRecordNumber ? inputError : ''} ${isEditing ? 'bg-surface-container/50 cursor-not-allowed' : ''}`}
+                id="medical-record-number"
+                name="medicalRecordNumber"
+                required
+                type="text"
+                value={form.medicalRecordNumber}
+                onChange={onChange('medicalRecordNumber')}
+                readOnly={isEditing}
+              />
             <span className="absolute right-2 px-2 py-1 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Sistem NICU</span>
           </div>
           {errors.medicalRecordNumber && <p className="font-label-sm text-label-sm text-error">{errors.medicalRecordNumber}</p>}
