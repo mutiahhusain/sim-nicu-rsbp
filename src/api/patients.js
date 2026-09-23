@@ -131,14 +131,14 @@ export async function addMasterTreatment(item) {
   return data?.[0]
 }
 
-export async function deletePatient(medicalRecordNumber) {
-  if (!supabase) return null
-  // Delete related records first (foreign key constraints)
-  await supabase.from('patient_diagnoses').delete().eq('patient_id', medicalRecordNumber)
-  await supabase.from('patient_treatments').delete().eq('patient_id', medicalRecordNumber)
-  await supabase.from('clinical_notes').delete().eq('patient_id', medicalRecordNumber)
-  
-  const { error } = await supabase.from('patients').delete().eq('medical_record_number', medicalRecordNumber)
+export async function deletePatient(id) {
+  if (!supabase || !id) return null
+  // Delete related records first (patient_id references patients.id — bigint)
+  await supabase.from('patient_diagnoses').delete().eq('patient_id', id)
+  await supabase.from('patient_treatments').delete().eq('patient_id', id)
+  await supabase.from('clinical_notes').delete().eq('patient_id', id)
+
+  const { error } = await supabase.from('patients').delete().eq('id', id)
   if (error) throw error
   return true
 }

@@ -419,8 +419,8 @@ export function PatientProvider({ children }) {
   const deletePatient = async (id) => {
     try {
       const patient = patients.find((p) => String(p.id) === String(id) || String(p.medical_record_number) === String(id))
-      const medicalRecordNumber = patient?.medical_record_number || id
-      await deletePatientFromSupabase(medicalRecordNumber)
+      const numericId = patient?.id || id
+      await deletePatientFromSupabase(numericId)
       setPatients((prev) => prev.filter((p) => String(p.id) !== String(id) && String(p.medical_record_number) !== String(id)))
       return true
     } catch (err) {

@@ -16,7 +16,6 @@ const formatDate = (date) => {
 }
 
 const EDITABLE_FIELDS = [
-  { key: 'bed', label: 'Bed', placeholder: 'Bed' },
   { key: 'status', label: 'Status', placeholder: 'Status' },
   { key: 'dpjp', label: 'DPJP', placeholder: 'DPJP' },
   { key: 'service_status', label: 'Service Status', placeholder: 'Service Status' },
@@ -36,7 +35,8 @@ export default function PatientDetail() {
   const navigate = useNavigate()
 
   const patient = patients.find((p) => String(p.id) === id || String(p.medical_record_number) === id) || null
-  const patientId = patient?.medical_record_number || patient?.id
+  const patientDbId = patient?.id
+  const patientIdentifier = patient?.medical_record_number || patient?.id
   const [clinicalNotes, setClinicalNotes] = useState([])
   const [diagnoses, setDiagnoses] = useState([])
   const [treatments, setTreatments] = useState([])
@@ -57,16 +57,16 @@ export default function PatientDetail() {
   }, [patient])
 
   useEffect(() => {
-    if (!patientId) return
+    if (!patientDbId) return
 
     let cancelled = false
     setClinicalLoading(true)
     setClinicalError('')
 
     Promise.all([
-      fetchClinicalNotes(patientId),
-      fetchPatientDiagnoses(patientId),
-      fetchPatientTreatments(patientId),
+      fetchClinicalNotes(patientDbId),
+      fetchPatientDiagnoses(patientDbId),
+      fetchPatientTreatments(patientDbId),
     ])
       .then(([notes, patientDiagnoses, patientTreatments]) => {
         if (cancelled) return
@@ -82,7 +82,7 @@ export default function PatientDetail() {
       })
 
     return () => { cancelled = true }
-  }, [patientId])
+  }, [patientDbId])
 
   const handleEditChange = (key, value) => {
     setEditData((prev) => ({ ...prev, [key]: value }))
@@ -91,7 +91,7 @@ export default function PatientDetail() {
   const handleSave = async () => {
     setSaving(true)
     try {
-      await updatePatient(patientId, editData)
+      await updatePatient(patientIdentifier, editData)
       showToast('Data pasien diperbarui', 'check_circle')
       navigate(`/pasien/${id}`, { replace: true })
     } catch (err) {
